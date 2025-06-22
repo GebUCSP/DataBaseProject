@@ -38,7 +38,7 @@
     <ClCompile Include="Storage.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="HardDriveInterface.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source\Interface</Filter>
     </ClCompile>
   </ItemGroup>

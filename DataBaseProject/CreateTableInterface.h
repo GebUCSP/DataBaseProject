@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ReadManager.h"
 namespace DataBaseProject {
 
 	using namespace System;
@@ -252,8 +252,25 @@ namespace DataBaseProject {
 	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
+		OpenFileDialog^ openFileDialog = gcnew OpenFileDialog();
+		openFileDialog->Filter = "Archivos CSV (*.csv)|*.csv";
+
+		if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			String^ filePath = openFileDialog->FileName;
+			String^ destinationPath = Path::Combine(Application::StartupPath, Path::GetFileName(filePath));
+
+			try {
+				File::Copy(filePath, destinationPath, true);
+				ReadManager::LastImportedFilePath = destinationPath;
+
+				MessageBox::Show("Archivo CSV subido exitosamente a: " + destinationPath);
+
+				ReadManager::ReadCSV();
+			}
+			catch (Exception^ ex) {
+				MessageBox::Show("Error al subir el archivo: " + ex->Message);
+			}
+		}
 	}
-
-
 };
 }

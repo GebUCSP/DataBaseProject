@@ -153,6 +153,9 @@
     <EmbeddedResource Include="HardDriveInterface.resx">
       <DependentUpon>HardDriveInterface.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="QueryInterface.resx">
+      <DependentUpon>QueryInterface.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,8 @@ namespace DataBaseProject {
 
 	public ref class DataBaseManager
 	{
+	private:
+		HardDrive^ hd;
 	public:
 		DataBaseManager();
 	};

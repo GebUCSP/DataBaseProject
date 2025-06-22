@@ -10,18 +10,7 @@ private:
     int clusters;
 
 public:
-    HardDrive(int p, int t, int s, int c)
-    {
-        platters = p;
-        tracks = t;
-        sectors = s;
-        clusters = c;
-    }
+    HardDrive(int p, int t, int s, int c);
 
-    void ShowInfo()
-    {
-        System::Windows::Forms::MessageBox::Show(
-            "Platters: " + platters + "\nTracks: " + tracks +
-            "\nSectors: " + sectors + "\nClusters: " + clusters);
-    }
+    void ShowInfo();
 };

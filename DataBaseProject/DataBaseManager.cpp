@@ -8,5 +8,6 @@ DataBaseManager::DataBaseManager()
 	Application::SetCompatibleTextRenderingDefault(false);
 
 	HardDriveInterface^ form = gcnew HardDriveInterface();
+	hd = form->hd;
 	Application::Run(form);
 }

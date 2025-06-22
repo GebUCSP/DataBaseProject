@@ -255,7 +255,7 @@ namespace DataBaseProject {
 			this->btnClear->UseVisualStyleBackColor = true;
 			this->btnClear->Click += gcnew System::EventHandler(this, &HardDriveInterface::btnClear_Click);
 			// 
-			// CreateTableInterface
+			// HardDriveInterface
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -272,7 +272,8 @@ namespace DataBaseProject {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Name = L"CreateTableInterface";
+			this->MinimumSize = System::Drawing::Size(578, 509);
+			this->Name = L"HardDriveInterface";
 			this->Text = L"CreateTableInterface";
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->ResumeLayout(false);
@@ -325,6 +326,7 @@ namespace DataBaseProject {
 		hd->ShowInfo();
 		DataBaseProject::CreateTableInterface^ newForm = gcnew CreateTableInterface(name);
 		newForm->Show();
+		this->Hide();
 	}
 	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 		DataBaseName->Clear();

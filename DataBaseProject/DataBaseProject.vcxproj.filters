@@ -1,40 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Services">
       <UniqueIdentifier>{ef35303f-d28e-4e62-a615-d696b42bed6b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Services\src">
       <UniqueIdentifier>{6cfe5425-ff5c-4559-8e59-e131574b0b78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Services\include">
-      <UniqueIdentifier>{cb8c7868-0247-49b1-bdea-54b2ce2f3903}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interafce">
-      <UniqueIdentifier>{b52d1dac-5c7f-49d3-8aee-ab2a1a9ba54d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interafce\include">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Interafce\src">
+    <Filter Include="src">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{b52d1dac-5c7f-49d3-8aee-ab2a1a9ba54d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Interface">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HardDriveInterface.cpp">
-      <Filter>Interafce\src</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="CreateTableInterface.cpp">
-      <Filter>Interafce\src</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="QueryInterface.cpp">
-      <Filter>Interafce\src</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="DataBaseManager.cpp">
       <Filter>Services\src</Filter>
@@ -54,28 +47,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HardDriveInterface.h">
-      <Filter>Interafce\include</Filter>
+      <Filter>Include\Interface</Filter>
     </ClInclude>
     <ClInclude Include="CreateTableInterface.h">
-      <Filter>Interafce\include</Filter>
+      <Filter>Include\Interface</Filter>
     </ClInclude>
     <ClInclude Include="QueryInterface.h">
-      <Filter>Interafce\include</Filter>
-    </ClInclude>
-    <ClInclude Include="Storage.h">
-      <Filter>Services\include</Filter>
+      <Filter>Include\Interface</Filter>
     </ClInclude>
     <ClInclude Include="DataBaseManager.h">
-      <Filter>Services\include</Filter>
+      <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="HardDrive.h">
-      <Filter>Services\include</Filter>
+      <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="QueryManager.h">
-      <Filter>Services\include</Filter>
+      <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="ReadManager.h">
-      <Filter>Services\include</Filter>
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Storage.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

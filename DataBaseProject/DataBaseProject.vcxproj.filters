@@ -16,6 +16,12 @@
     <Filter Include="Services">
       <UniqueIdentifier>{ef35303f-d28e-4e62-a615-d696b42bed6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Services\src">
+      <UniqueIdentifier>{6cfe5425-ff5c-4559-8e59-e131574b0b78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services\include">
+      <UniqueIdentifier>{cb8c7868-0247-49b1-bdea-54b2ce2f3903}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HardDriveInterface.cpp">
@@ -28,19 +34,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DataBaseManager.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="QueryManager.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadManager.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="Storage.cpp">
-      <Filter>Services</Filter>
+      <Filter>Services\src</Filter>
     </ClCompile>
     <ClCompile Include="HardDrive.cpp">
-      <Filter>Services</Filter>
+      <Filter>Services\src</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryManager.cpp">
+      <Filter>Services\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadManager.cpp">
+      <Filter>Services\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Storage.cpp">
+      <Filter>Services\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,20 +59,20 @@
     <ClInclude Include="QueryInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DataBaseManager.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="QueryManager.h">
-      <Filter>Services</Filter>
-    </ClInclude>
-    <ClInclude Include="ReadManager.h">
-      <Filter>Services</Filter>
-    </ClInclude>
     <ClInclude Include="Storage.h">
-      <Filter>Services</Filter>
+      <Filter>Services\include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBaseManager.h">
+      <Filter>Services\include</Filter>
     </ClInclude>
     <ClInclude Include="HardDrive.h">
-      <Filter>Services</Filter>
+      <Filter>Services\include</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryManager.h">
+      <Filter>Services\include</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadManager.h">
+      <Filter>Services\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

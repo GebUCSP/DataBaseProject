@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Services">
-      <UniqueIdentifier>{ef35303f-d28e-4e62-a615-d696b42bed6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Services\src">
-      <UniqueIdentifier>{6cfe5425-ff5c-4559-8e59-e131574b0b78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Include">
       <UniqueIdentifier>{b52d1dac-5c7f-49d3-8aee-ab2a1a9ba54d}</UniqueIdentifier>
     </Filter>
@@ -18,31 +8,38 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{ef35303f-d28e-4e62-a615-d696b42bed6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HardDriveInterface.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="CreateTableInterface.cpp">
-      <Filter>src</Filter>
+      <Filter>Source\Interface</Filter>
     </ClCompile>
     <ClCompile Include="QueryInterface.cpp">
-      <Filter>src</Filter>
+      <Filter>Source\Interface</Filter>
     </ClCompile>
     <ClCompile Include="DataBaseManager.cpp">
-      <Filter>Services\src</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="HardDrive.cpp">
-      <Filter>Services\src</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="QueryManager.cpp">
-      <Filter>Services\src</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="ReadManager.cpp">
-      <Filter>Services\src</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Storage.cpp">
-      <Filter>Services\src</Filter>
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HardDriveInterface.cpp">
+      <Filter>Source\Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

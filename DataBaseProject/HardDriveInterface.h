@@ -24,6 +24,7 @@ namespace DataBaseProject {
 			//TODO: Add the constructor code here
 			//
 		}
+		HardDrive^ hd;
 
 	protected:
 		/// <summary>
@@ -320,7 +321,7 @@ namespace DataBaseProject {
 		}
 
 		MessageBox::Show("Database created successfully!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-		HardDrive^ hd = gcnew HardDrive(valPlatters, valTracks, valSectors, valClusters);
+		hd = gcnew HardDrive(valPlatters, valTracks, valSectors, valClusters);
 		hd->ShowInfo();
 		DataBaseProject::CreateTableInterface^ newForm = gcnew CreateTableInterface(name);
 		newForm->Show();

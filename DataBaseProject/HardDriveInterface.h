@@ -95,9 +95,9 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->label1->Location = System::Drawing::Point(12, 9);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(205, 25);
+			this->label1->Size = System::Drawing::Size(192, 25);
 			this->label1->TabIndex = 0;
-			this->label1->Text = L"Create Data Base";
+			this->label1->Text = L"Create Data Bas";
 			// 
 			// label2
 			// 
@@ -326,7 +326,7 @@ namespace DataBaseProject {
 		hd->ShowInfo();
 		DataBaseProject::CreateTableInterface^ newForm = gcnew CreateTableInterface(name);
 		newForm->Show();
-		this->Hide();
+		//this->Hide();
 	}
 	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 		DataBaseName->Clear();

@@ -142,7 +142,7 @@ namespace DataBaseProject {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->PrimaryKey->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->PrimaryKey->Location = System::Drawing::Point(152, 111);
+			this->PrimaryKey->Location = System::Drawing::Point(16, 137);
 			this->PrimaryKey->Name = L"PrimaryKey";
 			this->PrimaryKey->Size = System::Drawing::Size(167, 31);
 			this->PrimaryKey->TabIndex = 7;
@@ -200,7 +200,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->DataTypes->FormattingEnabled = true;
 			this->DataTypes->Items->AddRange(gcnew cli::array< System::Object^  >(5) { L"INT", L"FLOAT", L"STRING", L"BOOL", L"CHAR" });
-			this->DataTypes->Location = System::Drawing::Point(398, 111);
+			this->DataTypes->Location = System::Drawing::Point(189, 137);
 			this->DataTypes->Name = L"DataTypes";
 			this->DataTypes->Size = System::Drawing::Size(147, 31);
 			this->DataTypes->TabIndex = 14;
@@ -210,12 +210,13 @@ namespace DataBaseProject {
 			this->btnAddData->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->btnAddData->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnAddData->Location = System::Drawing::Point(415, 162);
+			this->btnAddData->Location = System::Drawing::Point(416, 137);
 			this->btnAddData->Name = L"btnAddData";
 			this->btnAddData->Size = System::Drawing::Size(130, 31);
 			this->btnAddData->TabIndex = 13;
 			this->btnAddData->Text = L"Add Data";
 			this->btnAddData->UseVisualStyleBackColor = true;
+			this->btnAddData->Click += gcnew System::EventHandler(this, &CreateTableInterface::btnAddData_Click);
 			// 
 			// btnImport
 			// 
@@ -256,7 +257,7 @@ namespace DataBaseProject {
 	private: System::Void btnConfirm_Click(System::Object^ sender, System::EventArgs^ e) {
 		DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
 		newForm->Show();
-		this->Hide();
+		//this->Hide();
 	}
 	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
 		TableName->Clear();
@@ -282,5 +283,7 @@ namespace DataBaseProject {
 			}
 		}
 	}
+private: System::Void btnAddData_Click(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }

@@ -124,6 +124,7 @@
     <ClCompile Include="CreateTableInterface.cpp" />
     <ClCompile Include="DataBaseManager.cpp" />
     <ClCompile Include="HardDrive.cpp" />
+    <ClCompile Include="InsertInterface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="QueryInterface.cpp" />
     <ClCompile Include="QueryManager.cpp" />
@@ -137,6 +138,9 @@
     <ClInclude Include="DataBaseManager.h" />
     <ClInclude Include="HardDrive.h" />
     <ClInclude Include="HardDriveInterface.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="InsertInterface.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="QueryInterface.h">

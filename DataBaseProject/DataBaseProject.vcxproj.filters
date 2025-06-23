@@ -41,6 +41,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="InsertInterface.cpp">
+      <Filter>Source\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HardDriveInterface.h">
@@ -66,6 +69,9 @@
     </ClInclude>
     <ClInclude Include="Storage.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="InsertInterface.h">
+      <Filter>Include\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

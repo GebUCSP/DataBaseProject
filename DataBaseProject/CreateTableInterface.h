@@ -1,5 +1,6 @@
 #pragma once
 #include "ReadManager.h"
+#include "InsertInterface.h"
 #include "QueryInterface.h"
 namespace DataBaseProject {
 
@@ -67,13 +68,14 @@ namespace DataBaseProject {
 
 
 	private: System::Windows::Forms::Button^ btnImport;
-	private: System::DirectoryServices::DirectoryEntry^ directoryEntry1;
+
 
 	private:
 		System::Collections::Generic::List<System::Windows::Forms::TextBox^>^ fieldNames;
 		System::Collections::Generic::List<System::Windows::Forms::ComboBox^>^ fieldTypes;
 		int currentRow;
 		bool isFirstField = true;
+	private: System::Windows::Forms::Button^ btnConfirm;
 
 	protected:
 
@@ -96,7 +98,7 @@ namespace DataBaseProject {
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnAddField = (gcnew System::Windows::Forms::Button());
 			this->btnImport = (gcnew System::Windows::Forms::Button());
-			this->directoryEntry1 = (gcnew System::DirectoryServices::DirectoryEntry());
+			this->btnConfirm = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// lbWelcome
@@ -129,7 +131,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->TableName->Location = System::Drawing::Point(152, 66);
 			this->TableName->Name = L"TableName";
-			this->TableName->Size = System::Drawing::Size(512, 32);
+			this->TableName->Size = System::Drawing::Size(562, 32);
 			this->TableName->TabIndex = 6;
 			// 
 			// tableLayoutPanel1
@@ -146,17 +148,16 @@ namespace DataBaseProject {
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(496, 36);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(487, 36);
 			this->tableLayoutPanel1->TabIndex = 11;
 			// 
 			// btnAddField
 			// 
-			this->btnAddField->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->btnAddField->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnAddField->Location = System::Drawing::Point(17, 123);
 			this->btnAddField->Name = L"btnAddField";
-			this->btnAddField->Size = System::Drawing::Size(130, 31);
+			this->btnAddField->Size = System::Drawing::Size(114, 31);
 			this->btnAddField->TabIndex = 13;
 			this->btnAddField->Text = L"Add Field";
 			this->btnAddField->UseVisualStyleBackColor = true;
@@ -164,10 +165,10 @@ namespace DataBaseProject {
 			// 
 			// btnImport
 			// 
-			this->btnImport->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left));
+			this->btnImport->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->btnImport->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnImport->Location = System::Drawing::Point(534, 427);
+			this->btnImport->Location = System::Drawing::Point(584, 123);
 			this->btnImport->Name = L"btnImport";
 			this->btnImport->Size = System::Drawing::Size(130, 31);
 			this->btnImport->TabIndex = 14;
@@ -175,19 +176,34 @@ namespace DataBaseProject {
 			this->btnImport->UseVisualStyleBackColor = true;
 			this->btnImport->Click += gcnew System::EventHandler(this, &CreateTableInterface::btnImport_Click);
 			// 
+			// btnConfirm
+			// 
+			this->btnConfirm->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
+			this->btnConfirm->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnConfirm->Location = System::Drawing::Point(584, 427);
+			this->btnConfirm->MinimumSize = System::Drawing::Size(130, 31);
+			this->btnConfirm->Name = L"btnConfirm";
+			this->btnConfirm->Size = System::Drawing::Size(130, 31);
+			this->btnConfirm->TabIndex = 15;
+			this->btnConfirm->Text = L"Confirm";
+			this->btnConfirm->UseVisualStyleBackColor = true;
+			this->btnConfirm->Click += gcnew System::EventHandler(this, &CreateTableInterface::btnConfirm_Click_1);
+			// 
 			// CreateTableInterface
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
-			this->ClientSize = System::Drawing::Size(680, 470);
+			this->ClientSize = System::Drawing::Size(730, 470);
+			this->Controls->Add(this->btnConfirm);
 			this->Controls->Add(this->btnImport);
 			this->Controls->Add(this->btnAddField);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->TableName);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->lbWelcome);
-			this->MinimumSize = System::Drawing::Size(578, 509);
+			this->MinimumSize = System::Drawing::Size(746, 509);
 			this->Name = L"CreateTableInterface";
 			this->Text = L"CreateTableInterface";
 			this->ResumeLayout(false);
@@ -195,14 +211,6 @@ namespace DataBaseProject {
 
 		}
 #pragma endregion
-	private: System::Void btnConfirm_Click(System::Object^ sender, System::EventArgs^ e) {
-		DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
-		newForm->Show();
-		//this->Hide();
-	}
-	private: System::Void btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
-		TableName->Clear();
-	}
 	private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
 		OpenFileDialog^ openFileDialog = gcnew OpenFileDialog();
 		openFileDialog->Filter = "Archivos CSV (*.csv)|*.csv";
@@ -218,6 +226,8 @@ namespace DataBaseProject {
 				MessageBox::Show("Archivo CSV subido exitosamente a: " + destinationPath);
 
 				ReadManager::ReadCSV();
+				/*DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
+				newForm->Show();*/
 			}
 			catch (Exception^ ex) {
 				MessageBox::Show("Error al subir el archivo: " + ex->Message);
@@ -265,8 +275,15 @@ namespace DataBaseProject {
 		this->tableLayoutPanel1->Controls->Add(txtField, 0, newRow);
 		this->tableLayoutPanel1->Controls->Add(cmbType, 1, newRow);
 	}
+	private: System::Void btnConfirm_Click_1(System::Object^ sender, System::EventArgs^ e) {
+		String^ name = TableName->Text;
 
-
-
+		if (String::IsNullOrWhiteSpace(name)) {
+			MessageBox::Show("All fields must be filled!", "Warning", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			return;
+		}
+		DataBaseProject::InsertInterface^ newForm = gcnew InsertInterface(name);
+		newForm->Show();
+	}
 };
 }

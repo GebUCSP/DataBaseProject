@@ -31,49 +31,32 @@ namespace DataBaseProject {
 			}
 		}
 	private: System::Windows::Forms::Label^ lbWelcome;
-	private: System::Windows::Forms::TextBox^ SearchValue;
+	private: System::Windows::Forms::TextBox^ Value;
+
 
 	protected:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Button^ btnConfirm;
 	private: System::Windows::Forms::Button^ btnClear;
-	private: System::Windows::Forms::ComboBox^ Operators;
+	private: System::Windows::Forms::ComboBox^ Operator;
+
 
 	private: System::Windows::Forms::RadioButton^ btnAnd;
 	private: System::Windows::Forms::RadioButton^ btnOr;
-	private: System::Windows::Forms::ComboBox^ Attributes;
+	private: System::Windows::Forms::ComboBox^ Attribute;
+
 	private: System::Windows::Forms::ComboBox^ LikePosition;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Label^ lbLikeMatch;
+
 	private: System::Windows::Forms::Label^ label4;
+	private: System::Windows::Forms::ComboBox^ AdditionalAttribute;
 
-
-
-
-
-
-
-
-
+	private: System::Windows::Forms::ComboBox^ AdditionalOperator;
+	private: System::Windows::Forms::TextBox^ AdditionalValue;
+	private: System::Windows::Forms::ComboBox^ AdditionalLikePosition;
 
 	protected:
 
@@ -82,6 +65,9 @@ namespace DataBaseProject {
 		/// Required designer variable.
 		/// </summary>
 		System::ComponentModel::Container^ components;
+		bool btnAndWasChecked = false;
+		bool btnOrWasChecked = false;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -91,19 +77,23 @@ namespace DataBaseProject {
 		void InitializeComponent(void)
 		{
 			this->lbWelcome = (gcnew System::Windows::Forms::Label());
-			this->SearchValue = (gcnew System::Windows::Forms::TextBox());
+			this->Value = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnConfirm = (gcnew System::Windows::Forms::Button());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
-			this->Operators = (gcnew System::Windows::Forms::ComboBox());
+			this->Operator = (gcnew System::Windows::Forms::ComboBox());
 			this->btnAnd = (gcnew System::Windows::Forms::RadioButton());
 			this->btnOr = (gcnew System::Windows::Forms::RadioButton());
-			this->Attributes = (gcnew System::Windows::Forms::ComboBox());
+			this->Attribute = (gcnew System::Windows::Forms::ComboBox());
 			this->LikePosition = (gcnew System::Windows::Forms::ComboBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->lbLikeMatch = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->AdditionalAttribute = (gcnew System::Windows::Forms::ComboBox());
+			this->AdditionalOperator = (gcnew System::Windows::Forms::ComboBox());
+			this->AdditionalValue = (gcnew System::Windows::Forms::TextBox());
+			this->AdditionalLikePosition = (gcnew System::Windows::Forms::ComboBox());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -118,14 +108,14 @@ namespace DataBaseProject {
 			this->lbWelcome->TabIndex = 0;
 			this->lbWelcome->Text = L"Query Interface";
 			// 
-			// SearchValue
+			// Value
 			// 
-			this->SearchValue->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Value->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->SearchValue->Location = System::Drawing::Point(369, 85);
-			this->SearchValue->Name = L"SearchValue";
-			this->SearchValue->Size = System::Drawing::Size(174, 31);
-			this->SearchValue->TabIndex = 7;
+			this->Value->Location = System::Drawing::Point(369, 85);
+			this->Value->Name = L"Value";
+			this->Value->Size = System::Drawing::Size(174, 31);
+			this->Value->TabIndex = 7;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -171,16 +161,17 @@ namespace DataBaseProject {
 			this->btnClear->Text = L"Clear";
 			this->btnClear->UseVisualStyleBackColor = true;
 			// 
-			// Operators
+			// Operator
 			// 
-			this->Operators->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Operator->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Operators->FormattingEnabled = true;
-			this->Operators->Items->AddRange(gcnew cli::array< System::Object^  >(7) { L"=", L"!=", L"<", L">", L"<=", L">=", L"LIKE" });
-			this->Operators->Location = System::Drawing::Point(190, 85);
-			this->Operators->Name = L"Operators";
-			this->Operators->Size = System::Drawing::Size(173, 31);
-			this->Operators->TabIndex = 12;
+			this->Operator->FormattingEnabled = true;
+			this->Operator->Items->AddRange(gcnew cli::array< System::Object^  >(7) { L"=", L"!=", L"<", L">", L"<=", L">=", L"LIKE" });
+			this->Operator->Location = System::Drawing::Point(190, 85);
+			this->Operator->Name = L"Operator";
+			this->Operator->Size = System::Drawing::Size(173, 31);
+			this->Operator->TabIndex = 12;
+			this->Operator->SelectedIndexChanged += gcnew System::EventHandler(this, &QueryInterface::Operators_SelectedIndexChanged);
 			// 
 			// btnAnd
 			// 
@@ -194,6 +185,8 @@ namespace DataBaseProject {
 			this->btnAnd->TabStop = true;
 			this->btnAnd->Text = L"AND";
 			this->btnAnd->UseVisualStyleBackColor = true;
+			this->btnAnd->CheckedChanged += gcnew System::EventHandler(this, &QueryInterface::btnAnd_CheckedChanged);
+			this->btnAnd->Click += gcnew System::EventHandler(this, &QueryInterface::btnAnd_Click);
 			// 
 			// btnOr
 			// 
@@ -207,16 +200,18 @@ namespace DataBaseProject {
 			this->btnOr->TabStop = true;
 			this->btnOr->Text = L"OR";
 			this->btnOr->UseVisualStyleBackColor = true;
+			this->btnOr->CheckedChanged += gcnew System::EventHandler(this, &QueryInterface::btnOr_CheckedChanged);
+			this->btnOr->Click += gcnew System::EventHandler(this, &QueryInterface::btnOr_Click);
 			// 
-			// Attributes
+			// Attribute
 			// 
-			this->Attributes->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Attribute->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Attributes->FormattingEnabled = true;
-			this->Attributes->Location = System::Drawing::Point(11, 85);
-			this->Attributes->Name = L"Attributes";
-			this->Attributes->Size = System::Drawing::Size(173, 31);
-			this->Attributes->TabIndex = 15;
+			this->Attribute->FormattingEnabled = true;
+			this->Attribute->Location = System::Drawing::Point(11, 85);
+			this->Attribute->Name = L"Attribute";
+			this->Attribute->Size = System::Drawing::Size(173, 31);
+			this->Attribute->TabIndex = 15;
 			// 
 			// LikePosition
 			// 
@@ -228,6 +223,7 @@ namespace DataBaseProject {
 			this->LikePosition->Name = L"LikePosition";
 			this->LikePosition->Size = System::Drawing::Size(173, 31);
 			this->LikePosition->TabIndex = 16;
+			this->LikePosition->Visible = false;
 			// 
 			// label1
 			// 
@@ -251,16 +247,17 @@ namespace DataBaseProject {
 			this->label2->TabIndex = 18;
 			this->label2->Text = L"Operator :";
 			// 
-			// label3
+			// lbLikeMatch
 			// 
-			this->label3->AutoSize = true;
-			this->label3->Font = (gcnew System::Drawing::Font(L"Lucida Sans", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->lbLikeMatch->AutoSize = true;
+			this->lbLikeMatch->Font = (gcnew System::Drawing::Font(L"Lucida Sans", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label3->Location = System::Drawing::Point(549, 64);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(102, 18);
-			this->label3->TabIndex = 19;
-			this->label3->Text = L"LIKE match :";
+			this->lbLikeMatch->Location = System::Drawing::Point(549, 64);
+			this->lbLikeMatch->Name = L"lbLikeMatch";
+			this->lbLikeMatch->Size = System::Drawing::Size(102, 18);
+			this->lbLikeMatch->TabIndex = 19;
+			this->lbLikeMatch->Text = L"LIKE match :";
+			this->lbLikeMatch->Visible = false;
 			// 
 			// label4
 			// 
@@ -273,23 +270,77 @@ namespace DataBaseProject {
 			this->label4->TabIndex = 20;
 			this->label4->Text = L"Value :";
 			// 
+			// AdditionalAttribute
+			// 
+			this->AdditionalAttribute->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->AdditionalAttribute->FormattingEnabled = true;
+			this->AdditionalAttribute->Location = System::Drawing::Point(11, 173);
+			this->AdditionalAttribute->Name = L"AdditionalAttribute";
+			this->AdditionalAttribute->Size = System::Drawing::Size(173, 31);
+			this->AdditionalAttribute->TabIndex = 21;
+			this->AdditionalAttribute->Visible = false;
+			// 
+			// AdditionalOperator
+			// 
+			this->AdditionalOperator->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->AdditionalOperator->FormattingEnabled = true;
+			this->AdditionalOperator->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
+				L"=", L"!=", L"<", L">", L"<=", L">=",
+					L"LIKE"
+			});
+			this->AdditionalOperator->Location = System::Drawing::Point(190, 173);
+			this->AdditionalOperator->Name = L"AdditionalOperator";
+			this->AdditionalOperator->Size = System::Drawing::Size(173, 31);
+			this->AdditionalOperator->TabIndex = 22;
+			this->AdditionalOperator->Visible = false;
+			this->AdditionalOperator->SelectedIndexChanged += gcnew System::EventHandler(this, &QueryInterface::AdditionalOperator_SelectedIndexChanged);
+			// 
+			// AdditionalValue
+			// 
+			this->AdditionalValue->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->AdditionalValue->Location = System::Drawing::Point(369, 173);
+			this->AdditionalValue->Name = L"AdditionalValue";
+			this->AdditionalValue->Size = System::Drawing::Size(174, 31);
+			this->AdditionalValue->TabIndex = 23;
+			this->AdditionalValue->Visible = false;
+			// 
+			// AdditionalLikePosition
+			// 
+			this->AdditionalLikePosition->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->AdditionalLikePosition->FormattingEnabled = true;
+			this->AdditionalLikePosition->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"Begin", L"End", L"Include" });
+			this->AdditionalLikePosition->Location = System::Drawing::Point(549, 173);
+			this->AdditionalLikePosition->Name = L"AdditionalLikePosition";
+			this->AdditionalLikePosition->Size = System::Drawing::Size(173, 31);
+			this->AdditionalLikePosition->TabIndex = 24;
+			this->AdditionalLikePosition->Visible = false;
+			// 
 			// QueryInterface
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(730, 470);
+			this->Controls->Add(this->AdditionalLikePosition);
+			this->Controls->Add(this->AdditionalValue);
+			this->Controls->Add(this->AdditionalOperator);
+			this->Controls->Add(this->AdditionalAttribute);
 			this->Controls->Add(this->label4);
-			this->Controls->Add(this->label3);
+			this->Controls->Add(this->lbLikeMatch);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->LikePosition);
-			this->Controls->Add(this->Attributes);
+			this->Controls->Add(this->Attribute);
 			this->Controls->Add(this->btnOr);
 			this->Controls->Add(this->btnAnd);
-			this->Controls->Add(this->Operators);
+			this->Controls->Add(this->Operator);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->SearchValue);
+			this->Controls->Add(this->Value);
 			this->Controls->Add(this->lbWelcome);
+			this->MinimumSize = System::Drawing::Size(746, 509);
 			this->Name = L"QueryInterface";
 			this->Text = L"CreateTableInterface";
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -298,5 +349,81 @@ namespace DataBaseProject {
 
 		}
 #pragma endregion
+	private: System::Void Operators_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		String^ selectedOperator = Operator->SelectedItem != nullptr ? Operator->SelectedItem->ToString() : "";
+
+		if (selectedOperator == "LIKE") {
+			lbLikeMatch->Visible = true;
+			LikePosition->Visible = true; 
+		}
+		else {
+			lbLikeMatch->Visible = false;
+			LikePosition->Visible = false;
+		}
+	}
+	
+	private: System::Void btnAnd_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btnAnd->Checked && btnAndWasChecked) {
+			AdditionalAttribute->SelectedIndex = -1;
+			AdditionalOperator->SelectedIndex = -1;
+			AdditionalValue->Clear();
+
+			btnAnd->Checked = false; 
+		}
+		btnAndWasChecked = btnAnd->Checked;
+	}
+
+	private: System::Void btnAnd_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (btnAnd->Checked) {
+			AdditionalAttribute->SelectedIndex = -1;
+			AdditionalOperator->SelectedIndex = -1;
+			AdditionalValue->Clear();
+
+			AdditionalAttribute->Visible = true;
+			AdditionalOperator->Visible = true;
+			AdditionalValue->Visible = true;
+		}
+		else {
+			AdditionalAttribute->Visible = false;
+			AdditionalOperator->Visible = false;
+			AdditionalValue->Visible = false;
+		}
+	}
+	private: System::Void btnOr_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (btnOr->Checked && btnOrWasChecked) {
+			AdditionalAttribute->SelectedIndex = -1;
+			AdditionalOperator->SelectedIndex = -1;
+			AdditionalValue->Clear();
+
+			btnOr->Checked = false;
+		}
+		btnOrWasChecked = btnOr->Checked;
+	}
+	private: System::Void btnOr_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (btnOr->Checked) {
+			AdditionalAttribute->SelectedIndex = -1;
+			AdditionalOperator->SelectedIndex = -1;
+			AdditionalValue->Clear();
+
+			AdditionalAttribute->Visible = true;
+			AdditionalOperator->Visible = true;
+			AdditionalValue->Visible = true;
+		}
+		else {
+			AdditionalAttribute->Visible = false;
+			AdditionalOperator->Visible = false;
+			AdditionalValue->Visible = false;
+		}
+	}
+	private: System::Void AdditionalOperator_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		String^ selectedOperator = AdditionalOperator->SelectedItem != nullptr ? AdditionalOperator->SelectedItem->ToString() : "";
+
+		if (selectedOperator == "LIKE") {
+			AdditionalLikePosition->Visible = true; 
+		}
+		else {
+			AdditionalLikePosition->Visible = false; 
+		}
+	}
 };
 }

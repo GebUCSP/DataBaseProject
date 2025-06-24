@@ -162,7 +162,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->DataBaseName->Location = System::Drawing::Point(194, 66);
 			this->DataBaseName->Name = L"DataBaseName";
-			this->DataBaseName->Size = System::Drawing::Size(356, 32);
+			this->DataBaseName->Size = System::Drawing::Size(524, 32);
 			this->DataBaseName->TabIndex = 6;
 			// 
 			// Platters
@@ -173,7 +173,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->Platters->Location = System::Drawing::Point(117, 110);
 			this->Platters->Name = L"Platters";
-			this->Platters->Size = System::Drawing::Size(167, 32);
+			this->Platters->Size = System::Drawing::Size(335, 32);
 			this->Platters->TabIndex = 7;
 			// 
 			// Tracks
@@ -184,7 +184,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->Tracks->Location = System::Drawing::Point(117, 152);
 			this->Tracks->Name = L"Tracks";
-			this->Tracks->Size = System::Drawing::Size(167, 32);
+			this->Tracks->Size = System::Drawing::Size(335, 32);
 			this->Tracks->TabIndex = 8;
 			// 
 			// Sectors
@@ -195,7 +195,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->Sectors->Location = System::Drawing::Point(117, 196);
 			this->Sectors->Name = L"Sectors";
-			this->Sectors->Size = System::Drawing::Size(167, 32);
+			this->Sectors->Size = System::Drawing::Size(335, 32);
 			this->Sectors->TabIndex = 9;
 			// 
 			// Clusters
@@ -206,7 +206,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->Clusters->Location = System::Drawing::Point(117, 236);
 			this->Clusters->Name = L"Clusters";
-			this->Clusters->Size = System::Drawing::Size(167, 32);
+			this->Clusters->Size = System::Drawing::Size(335, 32);
 			this->Clusters->TabIndex = 10;
 			// 
 			// tableLayoutPanel1
@@ -224,7 +224,7 @@ namespace DataBaseProject {
 			this->tableLayoutPanel1->Name = L"tableLayoutPanel1";
 			this->tableLayoutPanel1->RowCount = 1;
 			this->tableLayoutPanel1->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
-			this->tableLayoutPanel1->Size = System::Drawing::Size(537, 50);
+			this->tableLayoutPanel1->Size = System::Drawing::Size(705, 50);
 			this->tableLayoutPanel1->TabIndex = 11;
 			// 
 			// btnConfirm
@@ -235,7 +235,7 @@ namespace DataBaseProject {
 				static_cast<System::Byte>(0)));
 			this->btnConfirm->Location = System::Drawing::Point(3, 3);
 			this->btnConfirm->Name = L"btnConfirm";
-			this->btnConfirm->Size = System::Drawing::Size(262, 44);
+			this->btnConfirm->Size = System::Drawing::Size(346, 44);
 			this->btnConfirm->TabIndex = 0;
 			this->btnConfirm->Text = L"Confirm";
 			this->btnConfirm->UseVisualStyleBackColor = true;
@@ -247,9 +247,9 @@ namespace DataBaseProject {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->btnClear->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->btnClear->Location = System::Drawing::Point(271, 3);
+			this->btnClear->Location = System::Drawing::Point(355, 3);
 			this->btnClear->Name = L"btnClear";
-			this->btnClear->Size = System::Drawing::Size(263, 44);
+			this->btnClear->Size = System::Drawing::Size(347, 44);
 			this->btnClear->TabIndex = 1;
 			this->btnClear->Text = L"Clear";
 			this->btnClear->UseVisualStyleBackColor = true;
@@ -259,7 +259,7 @@ namespace DataBaseProject {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(562, 470);
+			this->ClientSize = System::Drawing::Size(730, 470);
 			this->Controls->Add(this->tableLayoutPanel1);
 			this->Controls->Add(this->Clusters);
 			this->Controls->Add(this->Sectors);
@@ -272,7 +272,7 @@ namespace DataBaseProject {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->MinimumSize = System::Drawing::Size(578, 509);
+			this->MinimumSize = System::Drawing::Size(746, 509);
 			this->Name = L"HardDriveInterface";
 			this->Text = L"CreateTableInterface";
 			this->tableLayoutPanel1->ResumeLayout(false);

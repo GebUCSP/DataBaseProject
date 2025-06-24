@@ -157,6 +157,9 @@
     <EmbeddedResource Include="HardDriveInterface.resx">
       <DependentUpon>HardDriveInterface.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InsertInterface.resx">
+      <DependentUpon>InsertInterface.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="QueryInterface.resx">
       <DependentUpon>QueryInterface.h</DependentUpon>
     </EmbeddedResource>

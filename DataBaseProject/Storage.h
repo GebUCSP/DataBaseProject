@@ -1,15 +1,32 @@
 #pragma once
-#include <vector>
+#include "HardDrive.h"
 
-using namespace std;
+ref class BaseClass;
 
-template <class T>
-class Storage
-{
-public:
-	Storage(Storage<T>* father_ = nullptr, int container_size);
+
+public ref class Clusters {
 private:
-	Storage<T>* father;
-	vector<T*> container;
+	array<BaseClass^>^ data;
 };
 
+public ref class Track {
+private:
+	array<Clusters^>^ data;
+};
+
+public ref class Surface {
+private:
+	array<Track^>^ data;
+};
+
+public ref class Platter {
+private:
+	array<Surface^>^ data;
+};
+
+public ref class Disk {
+private:
+	array<Platter^>^ data;
+public:
+	Disk(HardDrive^ hd);
+};

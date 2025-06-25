@@ -129,7 +129,6 @@
     <ClCompile Include="QueryInterface.cpp" />
     <ClCompile Include="QueryManager.cpp" />
     <ClCompile Include="ReadManager.cpp" />
-    <ClCompile Include="Storage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CreateTableInterface.h">
@@ -148,7 +147,6 @@
     </ClInclude>
     <ClInclude Include="QueryManager.h" />
     <ClInclude Include="ReadManager.h" />
-    <ClInclude Include="Storage.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CreateTableInterface.resx">

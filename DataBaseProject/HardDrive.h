@@ -2,21 +2,41 @@
 
 using namespace System;
 
+ref class BaseClass;
+
+public ref class Cluster {
+public:
+	//modificar a BaseClass
+	array<int^>^ data;
+	int max_capacity, used_capacity;
+	Cluster(int capacity);
+};
+
+public ref class Track {
+public:
+	array<Cluster^>^ clusters;
+	Track(int size);
+};
+
+public ref class Surface {
+public:
+	array<Track^>^ tracks;
+	Surface(int size);
+};
+
+public ref class Platter {
+public:
+	array<Surface^>^ surfaces;
+	Platter(int size);
+};
+
 public ref class HardDrive
 {
 private:
-    int platters;
-    int tracks;
-    int clusterCapacity;
-    int clusterQuantity;
+	array<Platter^>^ platters;
 
 public:
-    HardDrive(int p, int t, int clusterCap, int c);
-    int getPlatters();
-    int getTracks();
-    int getClusterCapacity();
-    int getClusterQuantity();
-
-
+    HardDrive(int plattersQuantity, int tracksQuantity, int clusterCapacity, int clusterQuantity);
+	int plattersQuantity, tracksQuantity, clusterCapacity, clusterQuantity;
     void ShowInfo();
 };

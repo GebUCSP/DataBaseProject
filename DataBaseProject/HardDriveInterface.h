@@ -24,6 +24,11 @@ namespace DataBaseProject {
 			//TODO: Add the constructor code here
 			//
 		}
+	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::Label^ label8;
+	private: System::Windows::Forms::TextBox^ CapacityClusters;
+
+	public:
 		HardDrive^ hd;
 
 	protected:
@@ -41,13 +46,14 @@ namespace DataBaseProject {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::Label^ label5;
+
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::TextBox^ DataBaseName;
 	private: System::Windows::Forms::TextBox^ Platters;
 	private: System::Windows::Forms::TextBox^ Tracks;
-	private: System::Windows::Forms::TextBox^ Sectors;
-	private: System::Windows::Forms::TextBox^ Clusters;
+	private: System::Windows::Forms::TextBox^ QuantityClusters;
+
+
 
 
 
@@ -75,16 +81,17 @@ namespace DataBaseProject {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->DataBaseName = (gcnew System::Windows::Forms::TextBox());
 			this->Platters = (gcnew System::Windows::Forms::TextBox());
 			this->Tracks = (gcnew System::Windows::Forms::TextBox());
-			this->Sectors = (gcnew System::Windows::Forms::TextBox());
-			this->Clusters = (gcnew System::Windows::Forms::TextBox());
+			this->QuantityClusters = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->btnConfirm = (gcnew System::Windows::Forms::Button());
 			this->btnClear = (gcnew System::Windows::Forms::Button());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->CapacityClusters = (gcnew System::Windows::Forms::TextBox());
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -115,7 +122,7 @@ namespace DataBaseProject {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label3->Location = System::Drawing::Point(12, 111);
+			this->label3->Location = System::Drawing::Point(12, 142);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(99, 23);
 			this->label3->TabIndex = 2;
@@ -126,29 +133,18 @@ namespace DataBaseProject {
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(15, 153);
+			this->label4->Location = System::Drawing::Point(15, 184);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(96, 23);
 			this->label4->TabIndex = 3;
 			this->label4->Text = L"Tracks   :";
-			// 
-			// label5
-			// 
-			this->label5->AutoSize = true;
-			this->label5->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label5->Location = System::Drawing::Point(15, 197);
-			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(96, 23);
-			this->label5->TabIndex = 4;
-			this->label5->Text = L"Sectors  :";
 			// 
 			// label6
 			// 
 			this->label6->AutoSize = true;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label6->Location = System::Drawing::Point(12, 237);
+			this->label6->Location = System::Drawing::Point(12, 228);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(99, 23);
 			this->label6->TabIndex = 5;
@@ -171,9 +167,9 @@ namespace DataBaseProject {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->Platters->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Platters->Location = System::Drawing::Point(117, 110);
+			this->Platters->Location = System::Drawing::Point(117, 141);
 			this->Platters->Name = L"Platters";
-			this->Platters->Size = System::Drawing::Size(335, 32);
+			this->Platters->Size = System::Drawing::Size(244, 32);
 			this->Platters->TabIndex = 7;
 			// 
 			// Tracks
@@ -182,32 +178,21 @@ namespace DataBaseProject {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->Tracks->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Tracks->Location = System::Drawing::Point(117, 152);
+			this->Tracks->Location = System::Drawing::Point(117, 183);
 			this->Tracks->Name = L"Tracks";
-			this->Tracks->Size = System::Drawing::Size(335, 32);
+			this->Tracks->Size = System::Drawing::Size(244, 32);
 			this->Tracks->TabIndex = 8;
 			// 
-			// Sectors
+			// QuantityClusters
 			// 
-			this->Sectors->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+			this->QuantityClusters->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->Sectors->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->QuantityClusters->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Sectors->Location = System::Drawing::Point(117, 196);
-			this->Sectors->Name = L"Sectors";
-			this->Sectors->Size = System::Drawing::Size(335, 32);
-			this->Sectors->TabIndex = 9;
-			// 
-			// Clusters
-			// 
-			this->Clusters->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
-			this->Clusters->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->Clusters->Location = System::Drawing::Point(117, 236);
-			this->Clusters->Name = L"Clusters";
-			this->Clusters->Size = System::Drawing::Size(335, 32);
-			this->Clusters->TabIndex = 10;
+			this->QuantityClusters->Location = System::Drawing::Point(117, 227);
+			this->QuantityClusters->Name = L"QuantityClusters";
+			this->QuantityClusters->Size = System::Drawing::Size(244, 32);
+			this->QuantityClusters->TabIndex = 10;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -255,19 +240,53 @@ namespace DataBaseProject {
 			this->btnClear->UseVisualStyleBackColor = true;
 			this->btnClear->Click += gcnew System::EventHandler(this, &HardDriveInterface::btnClear_Click);
 			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label7->Location = System::Drawing::Point(114, 122);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(69, 16);
+			this->label7->TabIndex = 12;
+			this->label7->Text = L"Quantity :";
+			// 
+			// label8
+			// 
+			this->label8->AutoSize = true;
+			this->label8->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label8->Location = System::Drawing::Point(377, 209);
+			this->label8->Name = L"label8";
+			this->label8->Size = System::Drawing::Size(69, 16);
+			this->label8->TabIndex = 13;
+			this->label8->Text = L"Capacity :";
+			// 
+			// CapacityClusters
+			// 
+			this->CapacityClusters->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->CapacityClusters->Font = (gcnew System::Drawing::Font(L"Lucida Sans Unicode", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->CapacityClusters->Location = System::Drawing::Point(380, 228);
+			this->CapacityClusters->Name = L"CapacityClusters";
+			this->CapacityClusters->Size = System::Drawing::Size(244, 32);
+			this->CapacityClusters->TabIndex = 14;
+			// 
 			// HardDriveInterface
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(730, 470);
+			this->Controls->Add(this->CapacityClusters);
+			this->Controls->Add(this->label8);
+			this->Controls->Add(this->label7);
 			this->Controls->Add(this->tableLayoutPanel1);
-			this->Controls->Add(this->Clusters);
-			this->Controls->Add(this->Sectors);
+			this->Controls->Add(this->QuantityClusters);
 			this->Controls->Add(this->Tracks);
 			this->Controls->Add(this->Platters);
 			this->Controls->Add(this->DataBaseName);
 			this->Controls->Add(this->label6);
-			this->Controls->Add(this->label5);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
@@ -285,26 +304,26 @@ namespace DataBaseProject {
 		String^ name = DataBaseName->Text;
 		String^ platters = Platters->Text;
 		String^ tracks = Tracks->Text;
-		String^ sectors = Sectors->Text;
-		String^ clusters = Clusters->Text;
+		String^ quantityClusters = QuantityClusters->Text;
+		String^ capacityClusters = CapacityClusters->Text;
 
 		if (String::IsNullOrWhiteSpace(name) || String::IsNullOrWhiteSpace(platters) ||
-			String::IsNullOrWhiteSpace(tracks) || String::IsNullOrWhiteSpace(sectors) ||
-			String::IsNullOrWhiteSpace(clusters)) {
+			String::IsNullOrWhiteSpace(tracks) || String::IsNullOrWhiteSpace(capacityClusters) ||
+			String::IsNullOrWhiteSpace(quantityClusters)) {
 			MessageBox::Show("All fields must be filled!", "Warning", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 			return;
 		}
 
-		int valPlatters, valTracks, valSectors, valClusters;
+		int valPlatters, valTracks, capClusters, valClusters;
 
 		try
 		{
 			valPlatters = Convert::ToInt32(Platters->Text);
 			valTracks = Convert::ToInt32(Tracks->Text);
-			valSectors = Convert::ToInt32(Sectors->Text);
-			valClusters = Convert::ToInt32(Clusters->Text);
+			capClusters = Convert::ToInt32(CapacityClusters->Text);
+			valClusters = Convert::ToInt32(QuantityClusters->Text);
 
-			if (valPlatters <= 0 || valTracks <= 0 || valSectors <= 0 || valClusters <= 0)
+			if (valPlatters <= 0 || valTracks <= 0 || capClusters <= 0 || valClusters <= 0)
 			{
 				MessageBox::Show("All numeric values must be greater than 0.");
 				return;
@@ -322,7 +341,7 @@ namespace DataBaseProject {
 		}
 
 		MessageBox::Show("Database created successfully!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-		hd = gcnew HardDrive(valPlatters, valTracks, valSectors, valClusters);
+		hd = gcnew HardDrive(valPlatters, valTracks, capClusters, valClusters);
 		hd->ShowInfo();
 		DataBaseProject::CreateTableInterface^ newForm = gcnew CreateTableInterface(name);
 		newForm->Show();
@@ -332,8 +351,8 @@ namespace DataBaseProject {
 		DataBaseName->Clear();
 		Platters->Clear();
 		Tracks->Clear();
-		Sectors->Clear();
-		Clusters->Clear();
+		CapacityClusters->Clear();
+		QuantityClusters->Clear();
 	}
 	};
 }

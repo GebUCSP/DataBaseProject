@@ -6,22 +6,22 @@ public ref class HardDrive
 private:
     int platters;
     int tracks;
-    int sectors;
-    int clusters;
+    int clusterCapacity;
+    int clusterQuantity;
 
 public:
-    HardDrive(int p, int t, int s, int c)
+    HardDrive(int p, int t, int clusterCap, int c)
     {
         platters = p;
         tracks = t;
-        sectors = s;
-        clusters = c;
+        clusterCapacity = clusterCap;
+        clusterQuantity = c;
     }
 
     void ShowInfo()
     {
         System::Windows::Forms::MessageBox::Show(
             "Platters: " + platters + "\nTracks: " + tracks +
-            "\nSectors: " + sectors + "\nClusters: " + clusters);
+            "\nClusters: " + clusterQuantity + "\nCluster Capacity: " + clusterCapacity);
     }
 };

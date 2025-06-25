@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="CreateTableInterface.cpp" />
     <ClCompile Include="DataBaseManager.cpp" />
+    <ClCompile Include="FieldValidator.cpp" />
     <ClCompile Include="HardDrive.cpp" />
     <ClCompile Include="InsertInterface.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -135,6 +136,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="DataBaseManager.h" />
+    <ClInclude Include="FieldValidator.h" />
     <ClInclude Include="HardDrive.h" />
     <ClInclude Include="HardDriveInterface.h">
       <FileType>CppForm</FileType>

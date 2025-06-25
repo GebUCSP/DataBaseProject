@@ -1,16 +1,17 @@
-// HardDrive.h
 #pragma once
+
+using namespace System;
 
 public ref class HardDrive
 {
 private:
     int platters;
     int tracks;
-    int sectors;
-    int clusters;
+    int clusterCapacity;
+    int clusterQuantity;
 
 public:
-    HardDrive(int p, int t, int s, int c);
+    HardDrive(int p, int t, int clusterCap, int c);
 
     void ShowInfo();
 };

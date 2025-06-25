@@ -1,14 +1,17 @@
 #include "HardDrive.h"
+using namespace System::Windows::Forms;
 
-HardDrive::HardDrive(int p, int t, int s, int c) {
+HardDrive::HardDrive(int p, int t, int clusterCap, int c)
+{
     platters = p;
     tracks = t;
-    sectors = s;
-    clusters = c;
+    clusterCapacity = clusterCap;
+    clusterQuantity = c;
 }
 
-void HardDrive::ShowInfo(){
-    System::Windows::Forms::MessageBox::Show(
+void HardDrive::ShowInfo()
+{
+    MessageBox::Show(
         "Platters: " + platters + "\nTracks: " + tracks +
-        "\nSectors: " + sectors + "\nClusters: " + clusters);
+        "\nClusters: " + clusterQuantity + "\nCluster Capacity: " + clusterCapacity);
 }

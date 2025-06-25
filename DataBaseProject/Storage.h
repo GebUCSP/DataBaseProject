@@ -4,29 +4,34 @@
 ref class BaseClass;
 
 
-public ref class Clusters {
-private:
+public ref class Cluster {
+public:
 	array<BaseClass^>^ data;
+	int max_capacity, used_capacity;
+	Cluster(int size, int capacity);
 };
 
 public ref class Track {
-private:
-	array<Clusters^>^ data;
+public:
+	array<Cluster^>^ clusters;
+	Track(int size);
 };
 
 public ref class Surface {
-private:
-	array<Track^>^ data;
+public:
+	array<Track^>^ tracks;
+	Surface(int size);
 };
 
 public ref class Platter {
-private:
-	array<Surface^>^ data;
+public:
+	array<Surface^>^ surfaces;
+	Platter(int size);
 };
 
 public ref class Disk {
 private:
-	array<Platter^>^ data;
+	array<Platter^>^ platters;
 public:
 	Disk(HardDrive^ hd);
 };

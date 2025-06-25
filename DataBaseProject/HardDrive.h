@@ -11,6 +11,9 @@ private:
 
 public:
     HardDrive(int p, int t, int s, int c);
-
+    int getPlatters();
+    int getTracks();
+    int getSectors();
+    int getClusters();
     void ShowInfo();
 };

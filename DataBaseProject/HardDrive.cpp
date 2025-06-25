@@ -12,3 +12,8 @@ void HardDrive::ShowInfo(){
         "Platters: " + platters + "\nTracks: " + tracks +
         "\nSectors: " + sectors + "\nClusters: " + clusters);
 }
+
+int HardDrive::getPlatters() { return platters; }
+int HardDrive::getTracks() { return tracks; }
+int HardDrive::getSectors() { return sectors; }
+int HardDrive::getClusters () { return clusters; }

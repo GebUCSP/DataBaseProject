@@ -1,41 +1,20 @@
 #include "ReadManager.h"
 #include "FieldValidator.h"
+#include "HardDrive.h"
+
 
 #include <fstream>
 
 using namespace System;
 using namespace System::IO;
 using namespace System::Windows::Forms;
+using namespace System::Collections::Generic;
 
-void ReadManager::ReadCSV() {
-    //Leer archivo CSV con los datos de la tabla
-    if (LastImportedFilePath == nullptr || LastImportedFilePath->Length == 0) {
-        MessageBox::Show("No hay archivo CSV importado.");
-        return;
-    }
-
-    try {
-        array<String^>^ lines = File::ReadAllLines(LastImportedFilePath);
-
-        if (lines->Length == 0) {
-            MessageBox::Show("El archivo está vacío.");
-            return;
-        }
-
-        for each (String ^ line in lines) {
-            array<String^>^ values = line->Split(',');
-
-            for each (String ^ val in values) {
-                Console::Write(val + "\t");
-            }
-            Console::WriteLine("");
-        }
-
-        MessageBox::Show("Lectura del archivo CSV completada correctamente.");
-    }
-    catch (Exception^ ex) {
-        MessageBox::Show("Error al leer el archivo: " + ex->Message);
-    }
+array<String^>^ SplitCVSLine(String^ line) {
+    List<String^>^ result = gcnew List<String^>();
+    String^ currentField = "";
+    bool inQuotes = 0;
+    //falta completar
 }
 
 void ReadManager::ReadStructTable() {
@@ -50,16 +29,120 @@ void ReadManager::ReadStructTable() {
             MessageBox::Show("El archivo .txt está vacío.");
             return;
         }
+        fields->Clear();
 
         for each (String ^ line in lines) {
             line = line->Trim();
 
             if (line->StartsWith("CREATE TABLE") || line == ");")
                 continue;
+            if (line->EndsWith(",")) line = line->Substring(0, line->Length - 1);
+
+            array<String^>^ values = line->Split(' ');
+
+            if (values->Length < 2) {
+                MessageBox::Show("Error de sintaxis");
+                continue;
+            }
+            String^ name = values[0];
+            String^ typeTemp = values[1];
+            String^ type;
+            int size = 0, scale = 0;
+
+            int i1 = typeTemp->IndexOf('(');
+            int i2 = typeTemp->IndexOf(')');
+
+            if (i1 > -1 && i2 > i1) {
+                type = typeTemp->Substring(0, i1)->ToUpper();
+                String^ Cadsizes = typeTemp->Substring(i1 + 1, i2 - i1 - 1);
+                array<String^>^ sizes = Cadsizes->Split(',');
+                   
+                size = Int32::Parse(sizes[0]);
+                if (sizes->Length == 2) {
+                    scale = Int32::Parse(sizes[1]);
+                }
+
+            }
+            else {
+                type = typeTemp->ToUpper();
+                if (type == "INTEGER") size = 10;
+                else if (type != "BOOLEAN") {
+                    MessageBox::Show("Se requiere un tamaño específico.");
+                    continue;
+                }
+            }
+            String^ constraint = String::Join(" ", values, 2, values->Length - 2)->ToUpper();
+            bool isPrimaryKey = constraint->Contains("PRIMARY KEY");
+            bool isNotNull = constraint->Contains("NOT NULL");
+            
+            fields->Add(gcnew Tuple<String^, String^, int, int, bool, bool > (
+                name, type, size, scale, isPrimaryKey, isNotNull
+            ));
         }
     }
     catch (Exception^ ex) {
         MessageBox::Show("Error al leer el archivo de estructura; " + ex->Message);
+    }
+}
+
+void ReadManager::ReadCSV() {
+    //Leer archivo CSV con los datos de la tabla
+    if (LastImportedFilePath == nullptr || LastImportedFilePath->Length == 0) {
+        MessageBox::Show("No hay archivo CSV importado.");
+        return;
+    }
+
+    try {
+        array<String^>^ lines = File::ReadAllLines(LastImportedFilePath);
+
+        if (lines->Length < 2) {
+            MessageBox::Show("El archivo debe tener encabezado y al menos una fila de datos.");
+            return;
+        }
+
+        array<String^>^ headers = SplitCVSLine(lines[0]);
+
+        List<Tuple<String^, String^, int, int, bool, bool>^>^ FieldsOrdered = gcnew List<Tuple< String^, String^, int, int, bool, bool>^>();
+        
+        for each (String ^ header in headers) {
+            bool found = 0;
+            for each (auto field in fields) {
+                if (field->Item1 == header) {
+                    FieldsOrdered->Add(field);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                MessageBox::Show("Columna no reconocida: " + header);
+                return;
+            }
+        }
+
+        for (int i = 1; i < lines->Length; i++) {
+            array<String^>^ values = SplitCVSLine(lines[i]);
+
+            if (values->Length != FieldsOrdered->Count) {
+                MessageBox::Show("Fila inválida, cantidad incorrecta de columnas");
+                return;
+            }
+
+            bool isValidRow = 1;
+            for (int j = 0; j< values->Length; j++){
+                String^ value = values[j];
+                auto field = FieldsOrdered[j];
+                if (!ValidateValue(value, field)) {
+                    isValidRow = 0;
+                    MessageBox::Show("Valor inválido");
+                    break;
+                }
+            }
+            //if (isValidRow) HardDrive::InsertRow(values);
+        }
+        MessageBox::Show("Lectura y validacion del archivo CSV completadas correctamente.");
+    }
+    catch (Exception^ ex) {
+        MessageBox::Show("Error al leer el archivo: " + ex->Message);
     }
 }
 

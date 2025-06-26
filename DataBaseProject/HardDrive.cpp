@@ -50,5 +50,5 @@ void HardDrive::ShowInfo()
 {
     MessageBox::Show(
         "Platters: " + plattersQuantity + "\nTracks: " + tracksQuantity +
-        "\nClusters: " + clusterCapacity + "\nCluster Capacity: " + clusterCapacity);
+        "\nClusters: " + clusterQuantity + "\nCluster Capacity: " + clusterCapacity);
 }

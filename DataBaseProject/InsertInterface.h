@@ -114,6 +114,7 @@ namespace DataBaseProject {
 				ReadManager::ReadCSV();
 				DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
 				newForm->Show();
+				//this->Hide();
 			}
 			catch (Exception^ ex) {
 				MessageBox::Show("Error al subir el archivo: " + ex->Message);

@@ -54,8 +54,6 @@ void ReadManager::ReadStructTable()
 
         fields->Clear();
 
-        // 1. Expresión regular para cada línea de columna
-        //    ↳   colName   tipo(10,2)      resto (PRIMARY KEY, NOT NULL, ...)
         Regex^ rx = gcnew Regex(
             "^\\s*(\\w+)\\s+([A-Z]+(?:\\([0-9]+(?:\\s*,\\s*[0-9]+)?\\))?)\\s*(.*?)(?:,)?\\s*$",
             RegexOptions::IgnoreCase);
@@ -66,7 +64,7 @@ void ReadManager::ReadStructTable()
             if (line->Length == 0 ||
                 line->StartsWith("CREATE TABLE", StringComparison::OrdinalIgnoreCase) ||
                 line->StartsWith(")", StringComparison::Ordinal))
-                continue;   // Saltamos cabecera y cierre
+                continue;
 
             Match^ m = rx->Match(line);
             if (!m->Success)
@@ -75,19 +73,17 @@ void ReadManager::ReadStructTable()
                 continue;
             }
 
-            String^ name = m->Groups[1]->Value;          // index, item, cost...
-            String^ typeSpec = m->Groups[2]->Value->ToUpper(); // INTEGER(10), DECIMAL(10,2) ...
-            String^ rest = m->Groups[3]->Value->Trim()->ToUpper(); // PRIMARY KEY, NOT NULL …
-
-            // 2. Separar tipo de talla/escala
+            String^ name = m->Groups[1]->Value;
+            String^ typeSpec = m->Groups[2]->Value->ToUpper();
+            String^ rest = m->Groups[3]->Value->Trim()->ToUpper();
             String^ type;
             int size = 0;
             int scale = 0;
 
             int p1 = typeSpec->IndexOf('(');
-            if (p1 > -1)                        // Tiene talla
+            if (p1 > -1)                       
             {
-                type = typeSpec->Substring(0, p1);           // DECIMAL
+                type = typeSpec->Substring(0, p1);         
                 int p2 = typeSpec->LastIndexOf(')');
                 String^ inside = typeSpec->Substring(p1 + 1, p2 - p1 - 1)->Replace(" ", "");
                 array<String^>^ nums = inside->Split(',');
@@ -95,10 +91,10 @@ void ReadManager::ReadStructTable()
                 if (nums->Length == 2)
                     scale = Int32::Parse(nums[1]);
             }
-            else                                 // Sin talla (INTEGER, BOOLEAN, etc.)
+            else
             {
                 type = typeSpec;
-                if (type == "INTEGER") size = 10;   // valor por defecto si lo necesitas
+                if (type == "INTEGER") size = 10;
             }
 
             bool isPrimaryKey = rest->Contains("PRIMARY KEY");
@@ -143,8 +139,8 @@ void ReadManager::ReadCSV()
 
             for each (auto field in fields)
             {
-                String^ nameNormalized = field->Item1->Trim()->ToUpper();  // << normaliza
-                String^ headerNormalized = header->ToUpper();                 // << también
+                String^ nameNormalized = field->Item1->Trim()->ToUpper();
+                String^ headerNormalized = header->ToUpper();
 
                 if (nameNormalized == headerNormalized)
                 {

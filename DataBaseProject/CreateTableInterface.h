@@ -172,7 +172,7 @@ namespace DataBaseProject {
 			this->btnImport->Name = L"btnImport";
 			this->btnImport->Size = System::Drawing::Size(130, 31);
 			this->btnImport->TabIndex = 14;
-			this->btnImport->Text = L"Import .csv";
+			this->btnImport->Text = L"Import .txt";
 			this->btnImport->UseVisualStyleBackColor = true;
 			this->btnImport->Click += gcnew System::EventHandler(this, &CreateTableInterface::btnImport_Click);
 			// 
@@ -213,7 +213,7 @@ namespace DataBaseProject {
 #pragma endregion
 	private: System::Void btnImport_Click(System::Object^ sender, System::EventArgs^ e) {
 		OpenFileDialog^ openFileDialog = gcnew OpenFileDialog();
-		openFileDialog->Filter = "Archivos CSV (*.csv)|*.csv";
+		openFileDialog->Filter = "Archivos TXT (*.txt)|*.txt";
 
 		if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 			String^ filePath = openFileDialog->FileName;
@@ -221,11 +221,11 @@ namespace DataBaseProject {
 
 			try {
 				File::Copy(filePath, destinationPath, true);
-				ReadManager::LastImportedFilePath = destinationPath;
+				ReadManager::LastImportedStructPath = destinationPath;
 
-				MessageBox::Show("Archivo CSV subido exitosamente a: " + destinationPath);
+				MessageBox::Show("Archivo TXT subido exitosamente a: " + destinationPath);
 
-				ReadManager::ReadCSV();
+				ReadManager::ReadStructTable();
 				/*DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
 				newForm->Show();*/
 			}

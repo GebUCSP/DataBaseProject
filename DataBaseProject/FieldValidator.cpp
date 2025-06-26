@@ -2,6 +2,7 @@
 
 bool FieldValidator::ValidateInteger(String^ value, int size) {
 	// si se inestar un valor como 9999999999 se convierte en el max permitido 2147483647
+	return 0;
 }
 bool FieldValidator::ValidateBoolean(String^ value) {
 	// cualquier numero distinto de cero se considera true

@@ -10,11 +10,28 @@ using namespace System::IO;
 using namespace System::Windows::Forms;
 using namespace System::Collections::Generic;
 
-array<String^>^ SplitCVSLine(String^ line) {
-    List<String^>^ result = gcnew List<String^>();
+array<String^>^ SplitCSVLine(String^ line) {
+    List<String^>^ values = gcnew List<String^>();
     String^ currentField = "";
     bool inQuotes = 0;
-    //falta completar
+
+    for each (Char c in line) {
+        if (c == '"') inQuotes = !inQuotes;
+        else if (c == ',' && !inQuotes) {
+            values->Add(currentField->Trim());
+            currentField = "";
+        }
+        else currentField += c;
+    }
+    
+    values->Add(currentField->Trim());
+
+    for (int i = 0; i < values->Count; i++) {
+        String^ value = values[i];
+        if (value->StartsWith("\"") && value->EndsWith("\""))
+            values[i] = value->Substring(1, value->Length - 2);
+    }
+    return values->ToArray();
 }
 
 void ReadManager::ReadStructTable() {
@@ -100,7 +117,7 @@ void ReadManager::ReadCSV() {
             return;
         }
 
-        array<String^>^ headers = SplitCVSLine(lines[0]);
+        array<String^>^ headers = SplitCSVLine(lines[0]);
 
         List<Tuple<String^, String^, int, int, bool, bool>^>^ FieldsOrdered = gcnew List<Tuple< String^, String^, int, int, bool, bool>^>();
         
@@ -120,7 +137,7 @@ void ReadManager::ReadCSV() {
         }
 
         for (int i = 1; i < lines->Length; i++) {
-            array<String^>^ values = SplitCVSLine(lines[i]);
+            array<String^>^ values = SplitCSVLine(lines[i]);
 
             if (values->Length != FieldsOrdered->Count) {
                 MessageBox::Show("Fila inválida, cantidad incorrecta de columnas");
@@ -128,16 +145,20 @@ void ReadManager::ReadCSV() {
             }
 
             bool isValidRow = 1;
-            for (int j = 0; j< values->Length; j++){
+            //List<BaseData^>^ row = gcnew List<BaseData^>();
+            for (int j = 0; j < values->Length; j++) {
                 String^ value = values[j];
                 auto field = FieldsOrdered[j];
+
                 if (!ValidateValue(value, field)) {
                     isValidRow = 0;
                     MessageBox::Show("Valor inválido");
                     break;
                 }
+                //BaseData^ value = CreateValue(value, field->Item2, field->Item3, field->Item4);
+                //row->Add();
+                //Ya no iria -> if (isValidRow) HardDrive::InsertRow(values);
             }
-            //if (isValidRow) HardDrive::InsertRow(values);
         }
         MessageBox::Show("Lectura y validacion del archivo CSV completadas correctamente.");
     }

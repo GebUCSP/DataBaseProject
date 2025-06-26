@@ -1,4 +1,6 @@
 #pragma once
+using namespace System;
+using namespace System::Globalization;
 
 using namespace System;
 

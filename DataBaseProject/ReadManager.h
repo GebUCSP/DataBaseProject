@@ -19,8 +19,7 @@ public:
     };
 
     static List<Tuple<String^, String^, int, int, bool, bool>^>^ fields = gcnew List<Tuple<String^, String^, int, int, bool, bool>^>();
-    static List<List<String^>^>^ rowsValidated = gcnew List<List<String^>^>();
-
+    //static List<List<BaseData^>^>^ Rows = gcnew List<List<BaseData^>^>();
     static void ReadStructTable();
     static void ReadCSV();
     static bool ValidateValue(String^ value, Tuple<String^, String^, int, int, bool, bool>^ field);

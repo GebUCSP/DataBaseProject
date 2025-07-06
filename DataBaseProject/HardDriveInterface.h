@@ -28,9 +28,6 @@ namespace DataBaseProject {
 	private: System::Windows::Forms::Label^ label8;
 	private: System::Windows::Forms::TextBox^ CapacityClusters;
 
-	public:
-		HardDrive^ hd;
-
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -341,8 +338,8 @@ namespace DataBaseProject {
 		}
 
 		MessageBox::Show("Database created successfully!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-		hd = gcnew HardDrive(valPlatters, valTracks, capClusters, valClusters);
-		hd->ShowInfo();
+		HardDrive::Create(valPlatters, valTracks, capClusters, valClusters);
+		HardDrive::Instance->ShowInfo();
 		DataBaseProject::CreateTableInterface^ newForm = gcnew CreateTableInterface(name);
 		newForm->Show();
 		//this->Hide();

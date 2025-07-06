@@ -1,4 +1,4 @@
-﻿#include "ReadManager.h"
+#include "ReadManager.h"
 #include "FieldValidator.h"
 #include "HardDrive.h"
 
@@ -182,7 +182,7 @@ void ReadManager::ReadCSV()
 
             }
 
-            // if (isValidRow) HardDrive::InsertRow(...);
+            //if (isValidRow) HardDrive::Instance->InsertRow(values, FieldsOrdered); 
         }
 
         MessageBox::Show("Lectura y validación del archivo CSV completadas correctamente.");

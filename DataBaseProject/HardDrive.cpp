@@ -4,8 +4,7 @@ using namespace System::Windows::Forms;
 Cluster::Cluster(int capacity) {
 	max_capacity = capacity;
 	used_capacity = 0;
-	//modificar a BaseClass
-	data = gcnew array<int^>(capacity);
+	data = gcnew List<Object^>();
 }
 
 Track::Track(int size) {

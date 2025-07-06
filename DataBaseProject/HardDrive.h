@@ -1,13 +1,13 @@
 #pragma once
 
 using namespace System;
+using namespace System::Collections::Generic;
 
 ref class BaseClass;
 
 public ref class Cluster {
 public:
-	//modificar a BaseClass
-	array<int^>^ data;
+	List<Object^>^ data;
 	int max_capacity, used_capacity;
 	Cluster(int capacity);
 };

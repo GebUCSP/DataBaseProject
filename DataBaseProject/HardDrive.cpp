@@ -4,8 +4,8 @@ using namespace System::Windows::Forms;
 Cluster::Cluster(int capacity) {
 	max_capacity = capacity;
 	used_capacity = 0;
-	//modificar a BaseClass
-	data = gcnew array<int^>(capacity);
+
+	data = gcnew List<Object^>(capacity);
 }
 
 Track::Track(int size) {
@@ -20,35 +20,53 @@ Platter::Platter(int size) {
 	surfaces = gcnew array<Surface^>(size);
 }
 
+
+
 HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_)
 {
 	plattersQuantity = plattersQuantity_;
 	tracksQuantity = tracksQuantity_;
 	clusterCapacity = clusterCapacity_;
 	clusterQuantity = clusterQuantity_;
+	capacity = plattersQuantity * 2 * tracksQuantity * clusterQuantity * clusterCapacity ;
 
 	platters = gcnew array<Platter^>(plattersQuantity);
-	for each (Platter ^ p in platters)
-	{
-		p = gcnew Platter(2);
-		for each (Surface ^ s in p->surfaces)
-		{
-			s = gcnew Surface(tracksQuantity);
-			for each (Track ^ t in s->tracks)
-			{
-				t = gcnew Track(clusterQuantity);
-				for each (Cluster ^ c in t->clusters)
-				{
-					c = gcnew Cluster(clusterCapacity);
-				}
-			}
-		}
-	}
+    for (int i = 0; i < plattersQuantity; ++i)
+    {
+        platters[i] = gcnew Platter(2);
+        for (int j = 0; j < platters[i]->surfaces->Length; ++j)
+        {
+            platters[i]->surfaces[j] = gcnew Surface(tracksQuantity);
+            for (int k = 0; k < platters[i]->surfaces[j]->tracks->Length; ++k)
+            {
+                platters[i]->surfaces[j]->tracks[k] = gcnew Track(clusterQuantity);
+                for (int l = 0; l < platters[i]->surfaces[j]->tracks[k]->clusters->Length; ++l)
+                {
+                    platters[i]->surfaces[j]->tracks[k]->clusters[l] = gcnew Cluster(clusterCapacity);
+                }
+            }
+        }
+    }
+
+}
+
+void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_)
+{
+    if (instance == nullptr) instance = gcnew HardDrive(plattersQuantity_, tracksQuantity_, clusterCapacity_, clusterQuantity_);
+}
+
+HardDrive^ HardDrive::Instance::get() {
+    return instance;
 }
 
 void HardDrive::ShowInfo()
 {
     MessageBox::Show(
         "Platters: " + plattersQuantity + "\nTracks: " + tracksQuantity +
-        "\nClusters: " + clusterCapacity + "\nCluster Capacity: " + clusterCapacity);
+        "\nClusters: " + clusterQuantity + "\nCluster Capacity: " + clusterCapacity);
+}
+
+void HardDrive::InsertRow(array<String^>^ row, List<Tuple<String^, String^, int, int, bool, bool>^>^ fields)
+{
+    throw gcnew System::NotImplementedException();
 }

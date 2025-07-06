@@ -39,7 +39,7 @@ void ReadManager::ReadStructTable()
 {
     if (String::IsNullOrEmpty(LastImportedStructPath))
     {
-        MessageBox::Show("No se seleccionó un archivo válido");
+        MessageBox::Show("No se seleccion� un archivo v�lido");
         return;
     }
 
@@ -48,7 +48,7 @@ void ReadManager::ReadStructTable()
         array<String^>^ lines = File::ReadAllLines(LastImportedStructPath);
         if (lines->Length == 0)
         {
-            MessageBox::Show("El archivo .txt está vacío.");
+            MessageBox::Show("El archivo .txt est� vac�o.");
             return;
         }
 
@@ -162,7 +162,7 @@ void ReadManager::ReadCSV()
             array<String^>^ values = SplitCSVLine(lines[i]);
             if (values->Length != FieldsOrdered->Count)
             {
-                MessageBox::Show("Fila inválida, cantidad incorrecta de columnas");
+                MessageBox::Show("Fila inv�lida, cantidad incorrecta de columnas");
                 return;
             }
 
@@ -175,17 +175,17 @@ void ReadManager::ReadCSV()
                 if (!ValidateValue(value, field)) {
                     isValidRow = false;
                     String^ fieldName = field->Item1;
-                    MessageBox::Show("Valor inválido en fila " + i + ", columna '" + fieldName +
+                    MessageBox::Show("Valor inv�lido en fila " + i + ", columna '" + fieldName +
                         "': \"" + value + "\"");
                     break;
                 }
 
             }
 
-            // if (isValidRow) HardDrive::InsertRow(...);
+            //if (isValidRow) HardDrive::Instance->InsertRow(values, FieldsOrdered);
         }
 
-        MessageBox::Show("Lectura y validación del archivo CSV completadas correctamente.");
+        MessageBox::Show("Lectura y validaci�n del archivo CSV completadas correctamente.");
     }
     catch (Exception^ ex)
     {

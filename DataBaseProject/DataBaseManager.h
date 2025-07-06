@@ -9,7 +9,7 @@ namespace DataBaseProject {
 	public ref class DataBaseManager
 	{
 	private:
-		HardDrive^ hd;
+		HardDriveInterface^ form;
 	public:
 		DataBaseManager();
 	};

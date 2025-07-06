@@ -7,7 +7,7 @@ DataBaseManager::DataBaseManager()
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
-	HardDriveInterface^ form = gcnew HardDriveInterface();
-	hd = form->hd;
+	form = gcnew HardDriveInterface();
+	
 	Application::Run(form);
 }

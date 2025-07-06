@@ -341,8 +341,8 @@ namespace DataBaseProject {
 		}
 
 		MessageBox::Show("Database created successfully!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
-		hd = gcnew HardDrive(valPlatters, valTracks, capClusters, valClusters);
-		hd->ShowInfo();
+		HardDrive::Create(valPlatters, valTracks, capClusters, valClusters);
+		HardDrive::Instance->ShowInfo();
 		DataBaseProject::CreateTableInterface^ newForm = gcnew CreateTableInterface(name);
 		newForm->Show();
 		//this->Hide();

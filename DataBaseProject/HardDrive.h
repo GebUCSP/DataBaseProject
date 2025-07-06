@@ -1,13 +1,11 @@
 #pragma once
 
 using namespace System;
-
-ref class BaseClass;
+using namespace System::Collections::Generic;
 
 public ref class Cluster {
 public:
-	//modificar a BaseClass
-	array<int^>^ data;
+	List<Object^>^ data;
 	int max_capacity, used_capacity;
 	Cluster(int capacity);
 };
@@ -34,9 +32,18 @@ public ref class HardDrive
 {
 private:
 	array<Platter^>^ platters;
-
+	HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_);
 public:
-    HardDrive(int plattersQuantity, int tracksQuantity, int clusterCapacity, int clusterQuantity);
-	int plattersQuantity, tracksQuantity, clusterCapacity, clusterQuantity;
+	static property HardDrive^ Instance {
+		HardDrive^ get();
+	}
+	static HardDrive^ instance = nullptr;
+	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_);
+	int plattersQuantity;
+	int tracksQuantity;
+	int clusterCapacity;
+	int clusterQuantity;
+	int capacity;
     void ShowInfo();
+	void InsertRow(array<String^>^ row, List<Tuple<String^, String^, int, int, bool, bool>^>^ fields);
 };

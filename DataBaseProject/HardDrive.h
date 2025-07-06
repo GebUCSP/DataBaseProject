@@ -36,7 +36,14 @@ private:
 	array<Platter^>^ platters;
 
 public:
+	static HardDrive^ instance = nullptr;
     HardDrive(int plattersQuantity, int tracksQuantity, int clusterCapacity, int clusterQuantity);
 	int plattersQuantity, tracksQuantity, clusterCapacity, clusterQuantity;
     void ShowInfo();
+	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_);
+	static property HardDrive^ Instance {
+		HardDrive^ get() {
+			return instance;
+		}
+	}
 };

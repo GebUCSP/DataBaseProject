@@ -53,16 +53,15 @@ public ref class HardDrive {
 private:
     array<Platter^>^ platters;
 
-	HardDrive(int plattersQuantity, int tracksQuantity, int clusterCapacity, int clusterQuantity);
+	HardDrive(int plattersQuantity, int tracksQuantity, int clusterQuantity, int sectorsQuantity, int sectorCapacity);
 public:
-	int registerTotalSize = 0;
 	static HardDrive^ instance = nullptr;
 	array<int>^ usedCapacityClusters;
 	array<Tuple<String^, String^, int>^>^ headers = nullptr;
 
-	int plattersQuantity, tracksQuantity, clusterCapacity, clusterQuantity;
+	int plattersQuantity, tracksQuantity, clusterQuantity, sectorsQuantity, sectorCapacity, clusterCapacity;
 
-	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_);
+	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_);
 	void InsertRow(array<String^>^ values);
 
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);

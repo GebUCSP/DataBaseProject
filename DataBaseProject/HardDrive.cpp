@@ -45,12 +45,15 @@ Platter::Platter(int size) {
     surfaces = gcnew array<Surface^>(size);
 }
 
-HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_)
+HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_)
 {
     plattersQuantity = plattersQuantity_;
     tracksQuantity = tracksQuantity_;
-    clusterCapacity = clusterCapacity_;
     clusterQuantity = clusterQuantity_;
+    clusterCapacity = (sectorsQuantity_*sectorCapacity_)/clusterQuantity_;
+    sectorsQuantity = sectorsQuantity_;
+    sectorCapacity = sectorCapacity_;
+
 
     usedCapacityClusters = gcnew array<int>(clusterQuantity_);
 
@@ -77,12 +80,13 @@ void HardDrive::ShowInfo()
 {
     MessageBox::Show(
         "Platters: " + plattersQuantity + "\nTracks: " + tracksQuantity +
-        "\nClusters: " + clusterQuantity + "\nCluster Capacity: " + clusterCapacity);
+        "\nClusters: " + clusterQuantity + "\nCluster Capacity: " + clusterCapacity +
+        "\nSectors: " + sectorsQuantity + "\nSector Capacity: " + sectorCapacity);
 }
 
-void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_)
+void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_,int sectorsQuantity_, int sectorCapacity_)
 {
-	if (instance == nullptr) instance = gcnew HardDrive(plattersQuantity_, tracksQuantity_, clusterCapacity_, clusterQuantity_);
+    if (instance == nullptr) instance = gcnew HardDrive(plattersQuantity_, tracksQuantity_, clusterQuantity_, sectorsQuantity_, sectorCapacity_);
 }
 
 void HardDrive::InsertRow(array<String^>^ values)
@@ -182,10 +186,4 @@ void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^
     for (int i = 0; i < container->Count; i++) {
         headers[i] = gcnew Tuple<String^, String^, int>(container[i]->Item1, container[i]->Item2, container[i]->Item3);
     }
-
-    int sum = 0;
-    for (int i = 0; i < headers->Length; i++) {
-        sum += headers[i]->Item3;
-    }
-    registerTotalSize = sum;
 }

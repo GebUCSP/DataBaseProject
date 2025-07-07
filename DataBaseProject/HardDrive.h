@@ -64,6 +64,7 @@ public:
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);
 
     void ShowInfo();
+	void ShowAllData();
 
 	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^>{
 	public:

@@ -144,6 +144,36 @@ void HardDrive::InsertRow(array<String^>^ values)
     MessageBox::Show("Fila insertada con éxito.");
 }
 
+
+void HardDrive::ShowAllData(){
+    String^ output = "";
+
+    for (int p = 0; p < platters->Length; ++p){
+        for (int s = 0; s < platters[p]->surfaces->Length; ++s){
+            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t){
+                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c){
+                    Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
+
+                    if (cluster->head){
+                        output += "--- P" + p + " S" + s + " T" + t + " C" + c + " ---\n";
+                        ValueNode^ current = cluster->head;
+                        while (current) {
+                            output += current->field + ": " + current->value + " (" + current->size + ")\n";
+                            current = current->next;
+                        }
+                        output += "\n";
+                    }
+                }
+            }
+        }
+    }
+
+    if (output->Length == 0)
+        output = "No hay datos almacenados en el disco.";
+
+    MessageBox::Show(output, "Datos en el Disco");
+}
+
 void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container)
 {
     headers = gcnew array<Tuple<String^, String^, int>^>(container->Count);

@@ -182,7 +182,7 @@ void ReadManager::ReadCSV()
 
             }
 
-            //if (isValidRow) HardDrive::Instance->InsertRow(values, FieldsOrdered); 
+            if (isValidRow) HardDrive::Instance->InsertRow(values, FieldsOrdered); 
         }
 
         MessageBox::Show("Lectura y validación del archivo CSV completadas correctamente.");
@@ -212,4 +212,3 @@ bool ReadManager::ValidateValue(String^ value, Tuple<String^, String^, int, int,
 
     return 0;
 }
-

@@ -36,7 +36,7 @@ public:
 };
 
 public ref class HardDrive {
-private:
+public:
     array<Platter^>^ platters;
 
 public:

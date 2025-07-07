@@ -113,7 +113,8 @@ namespace DataBaseProject {
 				MessageBox::Show("Archivo CSV subido exitosamente a: " + destinationPath);
 
 				ReadManager::ReadCSV();
-				HardDrive::instance->ShowAllData();
+
+				HardDrive::Instance->ShowAllData();
 				DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
 				newForm->Show();
 			}

@@ -129,6 +129,7 @@ void ReadManager::ReadCSV()
         }
 
         array<String^>^ headers = SplitCSVLine(lines[0]);
+
         List<Tuple<String^, String^, int, int, bool, bool>^>^ FieldsOrdered =
             gcnew List<Tuple<String^, String^, int, int, bool, bool>^>();
 
@@ -156,7 +157,7 @@ void ReadManager::ReadCSV()
                 return;
             }
         }
-
+        HardDrive::Instance->setHeaders(fields);
         for (int i = 1; i < lines->Length; ++i)
         {
             array<String^>^ values = SplitCSVLine(lines[i]);
@@ -182,7 +183,7 @@ void ReadManager::ReadCSV()
 
             }
 
-            if (isValidRow) HardDrive::Instance->InsertRow(values, FieldsOrdered); 
+            if (isValidRow) HardDrive::Instance->InsertRow(values); 
         }
 
         MessageBox::Show("Lectura y validación del archivo CSV completadas correctamente.");

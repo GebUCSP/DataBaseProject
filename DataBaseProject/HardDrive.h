@@ -52,6 +52,7 @@ private:
 
 	HardDrive(int plattersQuantity, int tracksQuantity, int clusterCapacity, int clusterQuantity);
 public:
+	int registerTotalSize = 0;
 	static HardDrive^ instance = nullptr;
 	array<int>^ usedCapacityClusters;
 	array<Tuple<String^, String^, int>^>^ headers = nullptr;

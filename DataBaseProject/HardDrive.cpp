@@ -19,6 +19,7 @@ void Cluster::InsertValueNode(ValueNode^ node) {
     }
     else {
         tail->next = node;
+        tail = tail->next;
     }
     used_capacity += node->size;
  
@@ -158,7 +159,7 @@ void HardDrive::ShowAllData(){
                         output += "--- P" + p + " S" + s + " T" + t + " C" + c + " ---\n";
                         ValueNode^ current = cluster->head;
                         while (current) {
-                            output += current->field + ": " + current->value + " (" + current->size + ")\n";
+                            output += current->field + ": " + current->value + " | " ;
                             current = current->next;
                         }
                         output += "\n";
@@ -180,4 +181,10 @@ void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^
     for (int i = 0; i < container->Count; i++) {
         headers[i] = gcnew Tuple<String^, String^, int>(container[i]->Item1, container[i]->Item2, container[i]->Item3);
     }
+
+    int sum = 0;
+    for (int i = 0; i < headers->Length; i++) {
+        sum += headers[i]->Item3;
+    }
+    registerTotalSize = sum;
 }

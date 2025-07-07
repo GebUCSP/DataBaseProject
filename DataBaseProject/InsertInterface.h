@@ -1,6 +1,7 @@
 #pragma once
 #include "QueryInterface.h"
 #include "ReadManager.h"
+#include "HardDrive.h"
 namespace DataBaseProject {
 
 	using namespace System;
@@ -112,6 +113,7 @@ namespace DataBaseProject {
 				MessageBox::Show("Archivo CSV subido exitosamente a: " + destinationPath);
 
 				ReadManager::ReadCSV();
+				HardDrive::Instance->ShowAllData();
 				DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
 				newForm->Show();
 			}

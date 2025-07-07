@@ -1,5 +1,6 @@
 #include "HardDrive.h"
 using namespace System::Windows::Forms;
+using namespace System::Collections::Generic;
 
 ValueNode::ValueNode(String^ field_, String^ type_, String^ value_, int size_) {
     field = field_;
@@ -33,23 +34,23 @@ Cluster::Cluster(int capacity) {
 }
 
 Track::Track(int size) {
-	clusters = gcnew array<Cluster^>(size);
+    clusters = gcnew array<Cluster^>(size);
 }
 
 Surface::Surface(int size) {
-	tracks = gcnew array<Track^>(size);
+    tracks = gcnew array<Track^>(size);
 }
 
 Platter::Platter(int size) {
-	surfaces = gcnew array<Surface^>(size);
+    surfaces = gcnew array<Surface^>(size);
 }
 
 HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_)
 {
-	plattersQuantity = plattersQuantity_;
-	tracksQuantity = tracksQuantity_;
-	clusterCapacity = clusterCapacity_;
-	clusterQuantity = clusterQuantity_;
+    plattersQuantity = plattersQuantity_;
+    tracksQuantity = tracksQuantity_;
+    clusterCapacity = clusterCapacity_;
+    clusterQuantity = clusterQuantity_;
 
     usedCapacityClusters = gcnew array<int>(clusterQuantity_);
 
@@ -142,7 +143,7 @@ void HardDrive::InsertRow(array<String^>^ values)
         }      
     }
 
-    MessageBox::Show("Fila insertada con éxito.");
+    MessageBox::Show("Fila insertada con Ã©xito.");
 }
 
 

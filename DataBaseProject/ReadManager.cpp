@@ -197,9 +197,14 @@ void ReadManager::ReadCSV()
 
 
 bool ReadManager::ValidateValue(String^ value, Tuple<String^, String^, int, int, bool, bool>^ field) {
+    bool isNotNull = field->Item6;
+
+    if (isNotNull && String::IsNullOrWhiteSpace(value)) return 0;
+
     String^ type = field->Item2;
-    int size = field->Item3;
     int scale = field->Item4;
+    int size = field->Item3;
+
     if (type == "INTEGER")
         return FieldValidator::ValidateInteger(value, size);
     else if (type == "DECIMAL")
@@ -213,4 +218,3 @@ bool ReadManager::ValidateValue(String^ value, Tuple<String^, String^, int, int,
 
     return 0;
 }
-

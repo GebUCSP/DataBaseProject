@@ -96,7 +96,6 @@ void HardDrive::InsertRow(array<String^>^ values)
 
     List < Tuple < List<ValueNode^>^, Cluster^, int, int, int, int > ^ > ^ simulacion = gcnew List<Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>^>();
     ValueNode^ current = head;
-    bool exito = false;
 
     for (int p = 0; p < plattersQuantity && current; ++p) {
         for (int s = 0; s < platters[p]->surfaces->Length && current; ++s) {
@@ -115,7 +114,9 @@ void HardDrive::InsertRow(array<String^>^ values)
                         sizeSum += iterator->size;
                         iterator = iterator->nextValueNode;
                     }
+
                     if (group->Count > 0) {
+                        group->Sort(gcnew ValueNodeComparerDesc());
                         simulacion->Add(gcnew Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>(group, cluster, p,s,t,cl));
                         current = iterator;
                     }

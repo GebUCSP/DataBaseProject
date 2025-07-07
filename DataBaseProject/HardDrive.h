@@ -65,6 +65,14 @@ public:
 
     void ShowInfo();
 
+	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^>{
+	public:
+		virtual int Compare(ValueNode^ a, ValueNode^ b)
+		{
+			return b->size.CompareTo(a->size);
+		}
+	};
+
 	static property HardDrive^ Instance {
 		HardDrive^ get() {
 			return instance;

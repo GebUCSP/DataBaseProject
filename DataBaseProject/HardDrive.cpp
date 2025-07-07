@@ -2,10 +2,35 @@
 using namespace System::Windows::Forms;
 using namespace System::Collections::Generic;
 
+ValueNode::ValueNode(String^ field_, String^ type_, String^ value_, int size_) {
+    field = field_;
+    type = type_;
+    value = value_;
+    size = size_;
+    next = nullptr;
+    previousValueNode = nullptr;
+    nextValueNode = nullptr;
+    ubicacion = nullptr;
+}
+
+void Cluster::InsertValueNode(ValueNode^ node) {
+    if (!tail) {
+        head = node;
+        tail = head;
+    }
+    else {
+        tail->next = node;
+        tail = tail->next;
+    }
+    used_capacity += node->size;
+ 
+}
+
 Cluster::Cluster(int capacity) {
-    max_capacity = capacity;
-    used_capacity = 0;
-    data = gcnew List<Object^>();
+	max_capacity = capacity;
+	used_capacity = 0;
+    head = nullptr;
+    tail = nullptr;
 }
 
 Track::Track(int size) {
@@ -26,6 +51,8 @@ HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterCapa
     tracksQuantity = tracksQuantity_;
     clusterCapacity = clusterCapacity_;
     clusterQuantity = clusterQuantity_;
+
+    usedCapacityClusters = gcnew array<int>(clusterQuantity_);
 
     platters = gcnew array<Platter^>(plattersQuantity);
     for (int i = 0; i < plattersQuantity; ++i)
@@ -55,74 +82,87 @@ void HardDrive::ShowInfo()
 
 void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterCapacity_, int clusterQuantity_)
 {
-    if (instance == nullptr)
-        instance = gcnew HardDrive(plattersQuantity_, tracksQuantity_, clusterCapacity_, clusterQuantity_);
+	if (instance == nullptr) instance = gcnew HardDrive(plattersQuantity_, tracksQuantity_, clusterCapacity_, clusterQuantity_);
 }
 
-// Insertar fila validada desde ReadManager al disco
-void HardDrive::InsertRow(array<String^>^ values, List<Tuple<String^, String^, int, int, bool, bool>^>^ fieldMetadata)
+void HardDrive::InsertRow(array<String^>^ values)
 {
-    for (int p = 0; p < platters->Length; ++p)
-    {
-        for (int s = 0; s < platters[p]->surfaces->Length; ++s)
-        {
-            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t)
-            {
-                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c)
-                {
-                    Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
+    ValueNode^ head = gcnew ValueNode(headers[0]->Item1, headers[0]->Item2, values[0], headers[0]->Item3);
+    ValueNode^ prev = head;
+    for (int i = 1; i < values->Length; ++i) {
+        ValueNode^ current = gcnew ValueNode(headers[i]->Item1, headers[i]->Item2,values[i], headers[i]->Item3);
+        prev->nextValueNode = current;
+        current->previousValueNode = prev;
+        prev = current;
+    }
 
-                    if (cluster->used_capacity < cluster->max_capacity)
-                    {
-                        Dictionary<String^, String^>^ row = gcnew Dictionary<String^, String^>();
+    List < Tuple < List<ValueNode^>^, Cluster^, int, int, int, int > ^ > ^ simulacion = gcnew List<Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>^>();
+    ValueNode^ current = head;
 
-                        for (int i = 0; i < values->Length; ++i)
-                        {
-                            String^ fieldName = fieldMetadata[i]->Item1;
-                            String^ value = values[i];
-                            row[fieldName] = value;
-                        }
+    for (int p = 0; p < plattersQuantity && current; ++p) {
+        for (int s = 0; s < platters[p]->surfaces->Length && current; ++s) {
+            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length && current; ++t) {
+                for (int cl = 0; cl < platters[p]->surfaces[s]->tracks[t]->clusters->Length && current; ++cl) {
 
-                        cluster->data->Add(row);
-                        cluster->used_capacity++;
-                        return;
+                    Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[cl];
+                    int capacityAvailable = clusterCapacity - cluster->used_capacity;
+
+                    List<ValueNode^>^ group = gcnew List<ValueNode^>();
+                    ValueNode^ iterator = current;
+                    int sizeSum = 0;
+
+                    while (iterator && sizeSum + iterator->size <= capacityAvailable) {
+                        group->Add(iterator);
+                        sizeSum += iterator->size;
+                        iterator = iterator->nextValueNode;
+                    }
+
+                    if (group->Count > 0) {
+                        group->Sort(gcnew ValueNodeComparerDesc());
+                        simulacion->Add(gcnew Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>(group, cluster, p,s,t,cl));
+                        current = iterator;
                     }
                 }
             }
         }
     }
 
-    MessageBox::Show("Disco lleno. No hay espacio disponible para insertar más datos.");
+    if (current != nullptr) {
+        MessageBox::Show("No hay espacio suficiente para insertar la fila.");
+        return;
+    }
+
+    for each (Tuple<List<ValueNode^>^, Cluster^, int, int,int,int> ^ t in simulacion) {
+        List<ValueNode^>^ group = t->Item1;
+        Cluster^ cluster = t->Item2;
+
+        for each (ValueNode ^ n in group) {
+            n->ubicacion = gcnew Tuple<int, int, int, int>(t->Item3, t->Item4, t->Item5, t->Item6);
+            cluster->InsertValueNode(n);
+            usedCapacityClusters[t->Item6] += n->size;
+        }      
+    }
+
+    MessageBox::Show("Fila insertada con ÃƒÂ©xito.");
 }
 
-// NUEVA FUNCIÓN: Mostrar todo lo almacenado en el disco
-void HardDrive::ShowAllData()
-{
+
+void HardDrive::ShowAllData(){
     String^ output = "";
 
-    for (int p = 0; p < platters->Length; ++p)
-    {
-        for (int s = 0; s < platters[p]->surfaces->Length; ++s)
-        {
-            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t)
-            {
-                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c)
-                {
+    for (int p = 0; p < platters->Length; ++p){
+        for (int s = 0; s < platters[p]->surfaces->Length; ++s){
+            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t){
+                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c){
                     Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
 
-                    if (cluster->data->Count > 0)
-                    {
+                    if (cluster->head){
                         output += "--- P" + p + " S" + s + " T" + t + " C" + c + " ---\n";
-
-                        for each (Dictionary<String^, String^> ^ row in cluster->data)
-                        {
-                            for each (String ^ key in row->Keys)
-                            {
-                                output += key + ": " + row[key] + " | ";
-                            }
-                            output += "\n";
+                        ValueNode^ current = cluster->head;
+                        while (current) {
+                            output += current->field + ": " + current->value + " | " ;
+                            current = current->next;
                         }
-
                         output += "\n";
                     }
                 }
@@ -134,4 +174,18 @@ void HardDrive::ShowAllData()
         output = "No hay datos almacenados en el disco.";
 
     MessageBox::Show(output, "Datos en el Disco");
+}
+
+void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container)
+{
+    headers = gcnew array<Tuple<String^, String^, int>^>(container->Count);
+    for (int i = 0; i < container->Count; i++) {
+        headers[i] = gcnew Tuple<String^, String^, int>(container[i]->Item1, container[i]->Item2, container[i]->Item3);
+    }
+
+    int sum = 0;
+    for (int i = 0; i < headers->Length; i++) {
+        sum += headers[i]->Item3;
+    }
+    registerTotalSize = sum;
 }

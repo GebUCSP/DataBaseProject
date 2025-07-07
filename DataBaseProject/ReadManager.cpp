@@ -129,6 +129,7 @@ void ReadManager::ReadCSV()
         }
 
         array<String^>^ headers = SplitCSVLine(lines[0]);
+
         List<Tuple<String^, String^, int, int, bool, bool>^>^ FieldsOrdered =
             gcnew List<Tuple<String^, String^, int, int, bool, bool>^>();
 
@@ -156,7 +157,7 @@ void ReadManager::ReadCSV()
                 return;
             }
         }
-
+        HardDrive::Instance->setHeaders(fields);
         for (int i = 1; i < lines->Length; ++i)
         {
             array<String^>^ values = SplitCSVLine(lines[i]);
@@ -182,7 +183,7 @@ void ReadManager::ReadCSV()
 
             }
 
-            if (isValidRow) HardDrive::Instance->InsertRow(values, FieldsOrdered); 
+            if (isValidRow) HardDrive::Instance->InsertRow(values); 
         }
 
         MessageBox::Show("Lectura y validación del archivo CSV completadas correctamente.");
@@ -196,9 +197,14 @@ void ReadManager::ReadCSV()
 
 
 bool ReadManager::ValidateValue(String^ value, Tuple<String^, String^, int, int, bool, bool>^ field) {
+    bool isNotNull = field->Item6;
+
+    if (isNotNull && String::IsNullOrWhiteSpace(value)) return 0;
+
     String^ type = field->Item2;
-    int size = field->Item3;
     int scale = field->Item4;
+    int size = field->Item3;
+
     if (type == "INTEGER")
         return FieldValidator::ValidateInteger(value, size);
     else if (type == "DECIMAL")

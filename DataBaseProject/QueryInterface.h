@@ -1,4 +1,6 @@
 #pragma once
+#include "HardDrive.h"
+#include "QueryManager.h"
 namespace DataBaseProject {
 
 	using namespace System;
@@ -17,6 +19,8 @@ namespace DataBaseProject {
 		QueryInterface()
 		{
 			InitializeComponent();
+			this->Load += gcnew System::EventHandler(this, &QueryInterface::QueryInterface_Load);
+
 		}
 
 	protected:
@@ -147,6 +151,7 @@ namespace DataBaseProject {
 			this->btnConfirm->TabIndex = 0;
 			this->btnConfirm->Text = L"Confirm";
 			this->btnConfirm->UseVisualStyleBackColor = true;
+			this->btnConfirm->Click += gcnew System::EventHandler(this, &QueryInterface::btnConfirm_Click);
 			// 
 			// btnClear
 			// 
@@ -212,6 +217,7 @@ namespace DataBaseProject {
 			this->Attribute->Name = L"Attribute";
 			this->Attribute->Size = System::Drawing::Size(173, 31);
 			this->Attribute->TabIndex = 15;
+			this->Attribute->SelectedIndexChanged += gcnew System::EventHandler(this, &QueryInterface::Attribute_SelectedIndexChanged);
 			// 
 			// LikePosition
 			// 
@@ -424,6 +430,40 @@ namespace DataBaseProject {
 		else {
 			AdditionalLikePosition->Visible = false; 
 		}
+	}
+
+	private: System::Void QueryInterface_Load(System::Object^ sender, System::EventArgs^ e) {
+		// Llenar los combobox con los campos disponibles
+		Attribute->Items->Clear();
+		AdditionalAttribute->Items->Clear();
+
+		auto headers = HardDrive::instance->headers;
+
+		for each (auto campo in headers) {
+			Attribute->Items->Add(campo->Item1);
+			AdditionalAttribute->Items->Add(campo->Item1);
+		}
+
+		if (Attribute->Items->Count > 0)
+			Attribute->SelectedIndex = 0;
+	}
+
+	private: System::Void btnConfirm_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Llamar la función de búsqueda
+		String^ campo = Attribute->SelectedItem != nullptr ? Attribute->SelectedItem->ToString() : "";
+		String^ operador = Operator->SelectedItem != nullptr ? Operator->SelectedItem->ToString() : "";
+		String^ valor = Value->Text;
+
+		if (campo == "" || operador == "" || valor == "") {
+			MessageBox::Show("Completa todos los campos obligatorios.");
+			return;
+		}
+
+		// Aquí llamas al QueryManager directamente para crear el árbol y buscar
+		QueryManager::SelectWhere(campo, operador, valor);
+	}
+	private: System::Void Attribute_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		//Llamar al read Manager
 	}
 };
 }

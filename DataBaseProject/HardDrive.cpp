@@ -26,8 +26,8 @@ void Cluster::InsertValueNode(ValueNode^ node) {
 }
 
 Cluster::Cluster(int capacity) {
-	max_capacity = capacity;
-	used_capacity = 0;
+    max_capacity = capacity;
+    used_capacity = 0;
     head = nullptr;
     tail = nullptr;
 }
@@ -51,7 +51,7 @@ HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterQuan
     clusterQuantity = clusterQuantity_;
     sectorsQuantity = sectorsQuantity_;
     sectorCapacity = sectorCapacity_;
-    clusterCapacity = (plattersQuantity * 2 * tracksQuantity * sectorsQuantity * sectorCapacity)/clusterQuantity;
+    clusterCapacity = (plattersQuantity * 2 * tracksQuantity * sectorsQuantity * sectorCapacity) / clusterQuantity;
 
 
     usedCapacityClusters = gcnew array<int>(clusterQuantity_);
@@ -83,7 +83,7 @@ void HardDrive::ShowInfo()
         "\nSectors: " + sectorsQuantity + "\nSector Capacity: " + sectorCapacity);
 }
 
-void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_,int sectorsQuantity_, int sectorCapacity_)
+void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_)
 {
     if (instance == nullptr) instance = gcnew HardDrive(plattersQuantity_, tracksQuantity_, clusterQuantity_, sectorsQuantity_, sectorCapacity_);
 }
@@ -91,15 +91,16 @@ void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterQu
 void HardDrive::InsertRow(array<String^>^ values)
 {
     ValueNode^ head = gcnew ValueNode(headers[0]->Item1, headers[0]->Item2, values[0], headers[0]->Item3);
+    lastInsertedHead = head;
     ValueNode^ prev = head;
     for (int i = 1; i < values->Length; ++i) {
-        ValueNode^ current = gcnew ValueNode(headers[i]->Item1, headers[i]->Item2,values[i], headers[i]->Item3);
+        ValueNode^ current = gcnew ValueNode(headers[i]->Item1, headers[i]->Item2, values[i], headers[i]->Item3);
         prev->nextValueNode = current;
         current->previousValueNode = prev;
         prev = current;
     }
 
-    List < Tuple < List<ValueNode^>^, Cluster^, int, int, int, int > ^ > ^ simulacion = gcnew List<Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>^>();
+    List < Tuple < List<ValueNode^>^, Cluster^, int, int, int, int >^ >^ simulacion = gcnew List<Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>^>();
     ValueNode^ current = head;
 
     for (int p = 0; p < plattersQuantity && current; ++p) {
@@ -122,7 +123,7 @@ void HardDrive::InsertRow(array<String^>^ values)
 
                     if (group->Count > 0) {
                         group->Sort(gcnew ValueNodeComparerDesc());
-                        simulacion->Add(gcnew Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>(group, cluster, p,s,t,cl));
+                        simulacion->Add(gcnew Tuple<List<ValueNode^>^, Cluster^, int, int, int, int>(group, cluster, p, s, t, cl));
                         current = iterator;
                     }
                 }
@@ -135,7 +136,7 @@ void HardDrive::InsertRow(array<String^>^ values)
         return;
     }
 
-    for each (Tuple<List<ValueNode^>^, Cluster^, int, int,int,int> ^ t in simulacion) {
+    for each (Tuple<List<ValueNode^>^, Cluster^, int, int, int, int> ^ t in simulacion) {
         List<ValueNode^>^ group = t->Item1;
         Cluster^ cluster = t->Item2;
 
@@ -148,10 +149,10 @@ void HardDrive::InsertRow(array<String^>^ values)
             int finalSector = initialSector + sectorsNeeded - 1;
 
 
-            n->ubicacion = gcnew Tuple<int, int, int, int, Tuple<int,int>^>(t->Item3, t->Item4, t->Item5, t->Item6, gcnew Tuple<int, int>(initialSector, finalSector));
+            n->ubicacion = gcnew Tuple<int, int, int, int, Tuple<int, int>^>(t->Item3, t->Item4, t->Item5, t->Item6, gcnew Tuple<int, int>(initialSector, finalSector));
             cluster->InsertValueNode(n);
             usedCapacityClusters[t->Item6] += n->size;
-        }      
+        }
     }
 
     MessageBox::Show("Fila insertada con exito.");
@@ -167,8 +168,8 @@ List<ValueNode^>^ HardDrive::getListByField(String^ field) {
                     Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
                     ValueNode^ current = cluster->head;
                     while (current) {
-                        if (current->field == field) { 
-                            returnList->Add(current); 
+                        if (current->field == field) {
+                            returnList->Add(current);
                         }
                         current = current->next;
                     }
@@ -200,20 +201,20 @@ void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
     MessageBox::Show(output, "Resultado Query");
 }
 
-void HardDrive::ShowAllData(){
+void HardDrive::ShowAllData() {
     String^ output = "";
 
-    for (int p = 0; p < platters->Length; ++p){
-        for (int s = 0; s < platters[p]->surfaces->Length; ++s){
-            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t){
-                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c){
+    for (int p = 0; p < platters->Length; ++p) {
+        for (int s = 0; s < platters[p]->surfaces->Length; ++s) {
+            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t) {
+                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c) {
                     Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
 
-                    if (cluster->head){
+                    if (cluster->head) {
                         output += "--- P" + p + " S" + s + " T" + t + " C" + c + " ---\n";
                         ValueNode^ current = cluster->head;
                         while (current) {
-                            output += current->field + ": " + current->value + " | " ;
+                            output += current->field + ": " + current->value + " | ";
                             current = current->next;
                         }
                         output += "\n";
@@ -235,4 +236,8 @@ void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^
     for (int i = 0; i < container->Count; i++) {
         headers[i] = gcnew Tuple<String^, String^, int>(container[i]->Item1, container[i]->Item2, container[i]->Item3);
     }
+}
+
+ValueNode^ HardDrive::GetLastInsertedRow() {
+    return lastInsertedHead;
 }

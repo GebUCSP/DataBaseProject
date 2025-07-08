@@ -284,6 +284,7 @@ namespace DataBaseProject {
 		}
 		DataBaseProject::InsertInterface^ newForm = gcnew InsertInterface(name);
 		newForm->Show();
+		//this->Hide();
 	}
 };
 }

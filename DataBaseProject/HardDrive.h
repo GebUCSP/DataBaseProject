@@ -14,7 +14,7 @@ public:
 	ValueNode^ next;
 	ValueNode^ nextValueNode;
 	ValueNode^ previousValueNode;
-	Tuple<int, int, int, int,Tuple<int,int>^>^ ubicacion;
+	Tuple<int, int, int, int, Tuple<int, int>^>^ ubicacion;
 	Tuple<int, int>^ sectorUbication;
 	ValueNode(String^ field_, String^ type_, String^ value_, int size_);
 };
@@ -31,31 +31,31 @@ public:
 
 public ref class Track {
 public:
-    array<Cluster^>^ clusters;
+	array<Cluster^>^ clusters;
 
-    Track(int size);
+	Track(int size);
 };
 
 public ref class Surface {
 public:
-    array<Track^>^ tracks;
+	array<Track^>^ tracks;
 
-    Surface(int size);
+	Surface(int size);
 };
 
 public ref class Platter {
 public:
-    array<Surface^>^ surfaces;
+	array<Surface^>^ surfaces;
 
-    Platter(int size);
+	Platter(int size);
 };
 
 public ref class HardDrive {
 private:
-    array<Platter^>^ platters;
-
-	HardDrive(int plattersQuantity, int tracksQuantity, int clusterQuantity, int sectorsQuantity, int sectorCapacity);
+	array<Platter^>^ platters;
+	ValueNode^ lastInsertedHead;
 public:
+	HardDrive(int plattersQuantity, int tracksQuantity, int clusterQuantity, int sectorsQuantity, int sectorCapacity);
 	static HardDrive^ instance = nullptr;
 	array<int>^ usedCapacityClusters;
 	array<Tuple<String^, String^, int>^>^ headers = nullptr;
@@ -70,10 +70,10 @@ public:
 	void getRowByListNodes(List<ValueNode^>^ lista);
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);
 
-    void ShowInfo();
+	void ShowInfo();
 	void ShowAllData();
 
-	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^>{
+	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^> {
 	public:
 		virtual int Compare(ValueNode^ a, ValueNode^ b)
 		{
@@ -86,4 +86,5 @@ public:
 			return instance;
 		}
 	}
+	ValueNode^ GetLastInsertedRow();
 };

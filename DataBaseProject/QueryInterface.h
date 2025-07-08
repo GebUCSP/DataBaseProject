@@ -465,7 +465,6 @@ namespace DataBaseProject {
 				operador = likePosition;
 			}
 		}
-
 		if (btnAnd->Checked) {
 
 			String^ campoAdicional = AdditionalAttribute->SelectedItem != nullptr ? AdditionalAttribute->SelectedItem->ToString() : "";
@@ -475,8 +474,8 @@ namespace DataBaseProject {
 				MessageBox::Show("Completa todos los campos obligatorios.");
 				return;
 			}
-			if (operador == "LIKE") {
-				String^ likePosition = LikePosition->SelectedItem != nullptr ? LikePosition->SelectedItem->ToString() : "";
+			if (operadorAdicional == "LIKE") {
+				String^ likePosition = AdditionalLikePosition->SelectedItem != nullptr ? AdditionalLikePosition->SelectedItem->ToString() : "";
 				if (likePosition == "Begin" || likePosition == "End" || likePosition == "Include") {
 					operadorAdicional = likePosition;
 				}
@@ -491,8 +490,8 @@ namespace DataBaseProject {
 				MessageBox::Show("Completa todos los campos obligatorios.");
 				return;
 			}
-			if (operador == "LIKE") {
-				String^ likePosition = LikePosition->SelectedItem != nullptr ? LikePosition->SelectedItem->ToString() : "";
+			if (operadorAdicional == "LIKE") {
+				String^ likePosition = AdditionalLikePosition->SelectedItem != nullptr ? AdditionalLikePosition->SelectedItem->ToString() : "";
 				if (likePosition == "Begin" || likePosition == "End" || likePosition == "Include") {
 					operadorAdicional = likePosition;
 				}

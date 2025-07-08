@@ -264,24 +264,25 @@ void QueryManager::OR(String^ field, String^ op, String^ val, String^ additional
     List<ValueNode^>^ minList = nullptr;
     List<ValueNode^>^ maxList = nullptr;
 
-    int size = 0;
 
     if (resultsA->Count < resultsB->Count) {
-        size = resultsA->Count;
         minList = resultsA;
         maxList = resultsB;
     }
     else {
-        size = resultsB->Count;
         minList = resultsB;
         maxList = resultsA;
     }
 
     List<ValueNode^>^ results = gcnew List<ValueNode^>();
 
+    for (int i = 0; i < maxList->Count; i++) {
+        results->Add(maxList[i]);
+    }
+
     for (int i = 0; i < minList->Count; i++) {
         ValueNode^ p = HardDrive::Instance->getNodeByField(minList[i], maxList[i]->field);
-        if (maxList->Contains(p))
+        if (!results->Contains(p))
             results->Add(p);
     }
 

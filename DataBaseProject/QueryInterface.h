@@ -478,7 +478,7 @@ namespace DataBaseProject {
 				MessageBox::Show("Completa todos los campos obligatorios.");
 				return;
 			}
-			//QueryManager::OR(campo, operador, valor, campoAdicional, operadorAdicional, valorAdicional);
+			QueryManager::OR(campo, operador, valor, campoAdicional, operadorAdicional, valorAdicional);
 			return;
 		}
 

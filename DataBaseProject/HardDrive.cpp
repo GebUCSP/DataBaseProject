@@ -157,6 +157,30 @@ void HardDrive::InsertRow(array<String^>^ values)
     MessageBox::Show("Fila insertada con exito.");
 }
 
+List<ValueNode^>^ HardDrive::getListByField(String^ field) {
+    List<ValueNode^>^ returnList = gcnew List<ValueNode^>();
+    String^ output = "";
+
+    for (int p = 0; p < platters->Length; ++p) {
+        for (int s = 0; s < platters[p]->surfaces->Length; ++s) {
+            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t) {
+                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c) {
+                    Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
+                    ValueNode^ current = cluster->head;
+                    while (current) {
+                        if (current->field == field) { 
+                            output += current->field + ": " + current->value + " | ";
+                            returnList->Add(current); 
+                        }
+                        current = current->next;
+                    }
+                }
+            }
+        }
+    }
+    MessageBox::Show(output, "Prueba");
+    return returnList;
+}
 
 void HardDrive::ShowAllData(){
     String^ output = "";

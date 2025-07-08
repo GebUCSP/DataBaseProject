@@ -23,7 +23,6 @@ void Cluster::InsertValueNode(ValueNode^ node) {
         tail = tail->next;
     }
     used_capacity += node->size;
- 
 }
 
 Cluster::Cluster(int capacity) {
@@ -50,9 +49,9 @@ HardDrive::HardDrive(int plattersQuantity_, int tracksQuantity_, int clusterQuan
     plattersQuantity = plattersQuantity_;
     tracksQuantity = tracksQuantity_;
     clusterQuantity = clusterQuantity_;
-    clusterCapacity = (sectorsQuantity_*sectorCapacity_)/clusterQuantity_;
     sectorsQuantity = sectorsQuantity_;
     sectorCapacity = sectorCapacity_;
+    clusterCapacity = (plattersQuantity * 2 * tracksQuantity * sectorsQuantity * sectorCapacity)/clusterQuantity;
 
 
     usedCapacityClusters = gcnew array<int>(clusterQuantity_);
@@ -141,13 +140,21 @@ void HardDrive::InsertRow(array<String^>^ values)
         Cluster^ cluster = t->Item2;
 
         for each (ValueNode ^ n in group) {
-            n->ubicacion = gcnew Tuple<int, int, int, int>(t->Item3, t->Item4, t->Item5, t->Item6);
+            int sectorsPerCluster = sectorsQuantity / clusterQuantity;
+            int clusterStartSector = sectorsPerCluster * t->Item6;
+            int sectorOffsetWithinCluster = cluster->used_capacity / sectorCapacity;
+            int initialSector = clusterStartSector + sectorOffsetWithinCluster;
+            int sectorsNeeded = (n->size + sectorCapacity - 1) / sectorCapacity;
+            int finalSector = initialSector + sectorsNeeded - 1;
+
+
+            n->ubicacion = gcnew Tuple<int, int, int, int, Tuple<int,int>^>(t->Item3, t->Item4, t->Item5, t->Item6, gcnew Tuple<int, int>(initialSector, finalSector));
             cluster->InsertValueNode(n);
             usedCapacityClusters[t->Item6] += n->size;
         }      
     }
 
-    MessageBox::Show("Fila insertada con Ã©xito.");
+    MessageBox::Show("Fila insertada con exito.");
 }
 
 

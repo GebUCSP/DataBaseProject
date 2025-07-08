@@ -157,6 +157,9 @@ void QueryManager::SetKeyField(String^ fieldName) {
 
 bool AVLTree::CompareValues(String^ type, String^ a, String^ b, String^ op) {
     try {
+        if (op == "empieza") return a->StartsWith(b);
+        if (op == "termina") return a->EndsWith(b);
+        if (op == "incluye") return a->Contains(b);
         if (type == "INTEGER") {
             int valA = Int32::Parse(a);
             int valB = Int32::Parse(b);
@@ -285,6 +288,47 @@ void QueryManager::OR(String^ field, String^ op, String^ val, String^ additional
         if (!results->Contains(p))
             results->Add(p);
     }
+
+    if (results == nullptr || results->Count == 0) {
+        MessageBox::Show("Sin resultados.");
+        return;
+    }
+
+    HardDrive::instance->getRowByListNodes(results);
+}
+void QueryManager::SelectWhereEmpieza(String^ field, String^ val) {
+    if (indexTree == nullptr || currentField != field)
+        BuildIndex(field);
+
+    List<ValueNode^>^ results = indexTree->SearchByField(field, "empieza", val);
+
+    if (results == nullptr || results->Count == 0) {
+        MessageBox::Show("Sin resultados.");
+        return;
+    }
+
+    HardDrive::instance->getRowByListNodes(results);
+}
+
+void QueryManager::SelectWhereTermina(String^ field, String^ val) {
+    if (indexTree == nullptr || currentField != field)
+        BuildIndex(field);
+
+    List<ValueNode^>^ results = indexTree->SearchByField(field, "termina", val);
+
+    if (results == nullptr || results->Count == 0) {
+        MessageBox::Show("Sin resultados.");
+        return;
+    }
+
+    HardDrive::instance->getRowByListNodes(results);
+}
+
+void QueryManager::SelectWhereIncluye(String^ field, String^ val) {
+    if (indexTree == nullptr || currentField != field)
+        BuildIndex(field);
+
+    List<ValueNode^>^ results = indexTree->SearchByField(field, "incluye", val);
 
     if (results == nullptr || results->Count == 0) {
         MessageBox::Show("Sin resultados.");

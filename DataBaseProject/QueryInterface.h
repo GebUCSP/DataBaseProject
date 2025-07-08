@@ -230,7 +230,7 @@ namespace DataBaseProject {
 			this->LikePosition->Size = System::Drawing::Size(173, 31);
 			this->LikePosition->TabIndex = 16;
 			this->LikePosition->Visible = false;
-			// 
+			//
 			// label1
 			// 
 			this->label1->AutoSize = true;
@@ -278,8 +278,8 @@ namespace DataBaseProject {
 			// 
 			// AdditionalAttribute
 			// 
-			this->AdditionalAttribute->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->AdditionalAttribute->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->AdditionalAttribute->FormattingEnabled = true;
 			this->AdditionalAttribute->Location = System::Drawing::Point(11, 173);
 			this->AdditionalAttribute->Name = L"AdditionalAttribute";
@@ -458,6 +458,25 @@ namespace DataBaseProject {
 		if (campo == "" || operador == "" || valor == "") {
 			MessageBox::Show("Completa todos los campos obligatorios.");
 			return;
+		}
+		if (operador == "LIKE") {
+			String^ likePosition = LikePosition->SelectedItem != nullptr ? LikePosition->SelectedItem->ToString() : "";
+			
+			if (likePosition == "Begin") {
+				QueryManager::SelectWhereEmpieza(campo, valor);
+				return;
+			}
+			else if (likePosition == "End") {
+				QueryManager::SelectWhereTermina(campo, valor);
+				return;
+			}
+			else if (likePosition == "Include") {
+				QueryManager::SelectWhereIncluye(campo, valor);
+				return;
+			}
+			else {
+				MessageBox::Show("Please select a valid LIKE position.");
+			}
 		}
 
 		if (btnAnd->Checked) {

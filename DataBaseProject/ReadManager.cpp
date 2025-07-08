@@ -186,7 +186,7 @@ void ReadManager::ReadCSV()
             if (isValidRow) HardDrive::Instance->InsertRow(values); 
         }
 
-        MessageBox::Show("Lectura y validación del archivo CSV completadas correctamente.");
+        MessageBox::Show("Lectura y validacion del archivo CSV completadas correctamente.");
     }
     catch (Exception^ ex)
     {

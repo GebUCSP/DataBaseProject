@@ -461,31 +461,25 @@ namespace DataBaseProject {
 		}
 		if (operador == "LIKE") {
 			String^ likePosition = LikePosition->SelectedItem != nullptr ? LikePosition->SelectedItem->ToString() : "";
-			
-			if (likePosition == "Begin") {
-				QueryManager::SelectWhereEmpieza(campo, valor);
-				return;
-			}
-			else if (likePosition == "End") {
-				QueryManager::SelectWhereTermina(campo, valor);
-				return;
-			}
-			else if (likePosition == "Include") {
-				QueryManager::SelectWhereIncluye(campo, valor);
-				return;
-			}
-			else {
-				MessageBox::Show("Please select a valid LIKE position.");
+			if (likePosition == "Begin" || likePosition == "End" || likePosition == "Include") {
+				operador = likePosition;
 			}
 		}
 
 		if (btnAnd->Checked) {
+
 			String^ campoAdicional = AdditionalAttribute->SelectedItem != nullptr ? AdditionalAttribute->SelectedItem->ToString() : "";
 			String^ operadorAdicional = AdditionalOperator->SelectedItem != nullptr ? AdditionalOperator->SelectedItem->ToString() : "";
 			String^ valorAdicional = AdditionalValue->Text;
 			if (campoAdicional == "" || operadorAdicional == "" || valorAdicional == "") {
 				MessageBox::Show("Completa todos los campos obligatorios.");
 				return;
+			}
+			if (operador == "LIKE") {
+				String^ likePosition = LikePosition->SelectedItem != nullptr ? LikePosition->SelectedItem->ToString() : "";
+				if (likePosition == "Begin" || likePosition == "End" || likePosition == "Include") {
+					operadorAdicional = likePosition;
+				}
 			}
 			QueryManager::AND(campo, operador, valor, campoAdicional, operadorAdicional, valorAdicional);
 			return;
@@ -497,10 +491,15 @@ namespace DataBaseProject {
 				MessageBox::Show("Completa todos los campos obligatorios.");
 				return;
 			}
+			if (operador == "LIKE") {
+				String^ likePosition = LikePosition->SelectedItem != nullptr ? LikePosition->SelectedItem->ToString() : "";
+				if (likePosition == "Begin" || likePosition == "End" || likePosition == "Include") {
+					operadorAdicional = likePosition;
+				}
+			}
 			QueryManager::OR(campo, operador, valor, campoAdicional, operadorAdicional, valorAdicional);
 			return;
 		}
-
 
 		// Aquí llamas al QueryManager directamente para crear el árbol y buscar
 		QueryManager::SelectWhere(campo, operador, valor);

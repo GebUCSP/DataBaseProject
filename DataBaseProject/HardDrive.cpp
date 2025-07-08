@@ -159,7 +159,6 @@ void HardDrive::InsertRow(array<String^>^ values)
 
 List<ValueNode^>^ HardDrive::getListByField(String^ field) {
     List<ValueNode^>^ returnList = gcnew List<ValueNode^>();
-    String^ output = "";
 
     for (int p = 0; p < platters->Length; ++p) {
         for (int s = 0; s < platters[p]->surfaces->Length; ++s) {
@@ -169,7 +168,6 @@ List<ValueNode^>^ HardDrive::getListByField(String^ field) {
                     ValueNode^ current = cluster->head;
                     while (current) {
                         if (current->field == field) { 
-                            output += current->field + ": " + current->value + " | ";
                             returnList->Add(current); 
                         }
                         current = current->next;
@@ -178,8 +176,28 @@ List<ValueNode^>^ HardDrive::getListByField(String^ field) {
             }
         }
     }
-    MessageBox::Show(output, "Prueba");
     return returnList;
+}
+
+String^ HardDrive::getRowByNode(ValueNode^ node) {
+    String^ output = "";
+    ValueNode^ currentNode = node;
+    while (currentNode->previousValueNode) {
+        currentNode = currentNode->previousValueNode;
+    }
+    while (currentNode) {
+        output += currentNode->field + ": " + currentNode->value + " - location: ( " + currentNode->ubicacion->Item5->Item1 + "," + currentNode->ubicacion->Item5->Item1 + " ) " + " | ";
+        currentNode = currentNode->nextValueNode;
+    }
+    return output;
+}
+
+void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
+    String^ output = "";
+    for each (ValueNode ^ n in lista) {
+        output += getRowByNode(n) + "\n";
+    }
+    MessageBox::Show(output, "Resultado Query");
 }
 
 void HardDrive::ShowAllData(){

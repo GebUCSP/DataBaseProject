@@ -147,6 +147,7 @@ namespace DataBaseProject {
 			this->btnConfirm->TabIndex = 0;
 			this->btnConfirm->Text = L"Confirm";
 			this->btnConfirm->UseVisualStyleBackColor = true;
+			this->btnConfirm->Click += gcnew System::EventHandler(this, &QueryInterface::btnConfirm_Click);
 			// 
 			// btnClear
 			// 
@@ -212,6 +213,7 @@ namespace DataBaseProject {
 			this->Attribute->Name = L"Attribute";
 			this->Attribute->Size = System::Drawing::Size(173, 31);
 			this->Attribute->TabIndex = 15;
+			this->Attribute->SelectedIndexChanged += gcnew System::EventHandler(this, &QueryInterface::Attribute_SelectedIndexChanged);
 			// 
 			// LikePosition
 			// 
@@ -424,6 +426,12 @@ namespace DataBaseProject {
 		else {
 			AdditionalLikePosition->Visible = false; 
 		}
+	}
+	private: System::Void btnConfirm_Click(System::Object^ sender, System::EventArgs^ e) {
+		//Llamar la función de búsqueda
+	}
+	private: System::Void Attribute_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		//Llamar al read Manager
 	}
 };
 }

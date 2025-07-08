@@ -14,7 +14,8 @@ public:
 	ValueNode^ next;
 	ValueNode^ nextValueNode;
 	ValueNode^ previousValueNode;
-	Tuple<int, int, int, int>^ ubicacion;
+	Tuple<int, int, int, int, Tuple<int, int>^>^ ubicacion;
+	Tuple<int, int>^ sectorUbication;
 	ValueNode(String^ field_, String^ type_, String^ value_, int size_);
 };
 
@@ -30,28 +31,28 @@ public:
 
 public ref class Track {
 public:
-    array<Cluster^>^ clusters;
+	array<Cluster^>^ clusters;
 
-    Track(int size);
+	Track(int size);
 };
 
 public ref class Surface {
 public:
-    array<Track^>^ tracks;
+	array<Track^>^ tracks;
 
-    Surface(int size);
+	Surface(int size);
 };
 
 public ref class Platter {
 public:
-    array<Surface^>^ surfaces;
+	array<Surface^>^ surfaces;
 
-    Platter(int size);
+	Platter(int size);
 };
 
 public ref class HardDrive {
 private:
-    array<Platter^>^ platters;
+	array<Platter^>^ platters;
 
 	HardDrive(int plattersQuantity, int tracksQuantity, int clusterQuantity, int sectorsQuantity, int sectorCapacity);
 public:
@@ -59,17 +60,18 @@ public:
 	array<int>^ usedCapacityClusters;
 	array<Tuple<String^, String^, int>^>^ headers = nullptr;
 
-	int plattersQuantity, tracksQuantity, clusterQuantity, sectorsQuantity, sectorCapacity, clusterCapacity;
+	int plattersQuantity, tracksQuantity, clusterQuantity, sectorsQuantity, sectorCapacity;
+	float clusterCapacity;
 
 	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_);
 	void InsertRow(array<String^>^ values);
-
+	List<ValueNode^>^ getListByField(String^ field);
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);
 
-    void ShowInfo();
+	void ShowInfo();
 	void ShowAllData();
 
-	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^>{
+	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^> {
 	public:
 		virtual int Compare(ValueNode^ a, ValueNode^ b)
 		{

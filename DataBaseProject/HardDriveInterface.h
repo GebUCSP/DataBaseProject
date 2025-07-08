@@ -45,20 +45,12 @@ namespace DataBaseProject {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ label4;
-
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::TextBox^ DataBaseName;
 	private: System::Windows::Forms::TextBox^ Platters;
 	private: System::Windows::Forms::TextBox^ Tracks;
 	private: System::Windows::Forms::TextBox^ QuantitySectors;
 	private: System::Windows::Forms::TextBox^ QuantityClusters;
-
-
-
-
-
-
-
 	private: System::Windows::Forms::TableLayoutPanel^ tableLayoutPanel1;
 	private: System::Windows::Forms::Button^ btnConfirm;
 	private: System::Windows::Forms::Button^ btnClear;

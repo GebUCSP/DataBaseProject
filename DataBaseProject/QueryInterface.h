@@ -431,6 +431,7 @@ namespace DataBaseProject {
 		//Llamar la función de búsqueda
 	}
 	private: System::Void Attribute_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		//Llamar al read Manager
 	}
 };
 }

@@ -88,6 +88,7 @@ void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterCa
 void HardDrive::InsertRow(array<String^>^ values)
 {
     ValueNode^ head = gcnew ValueNode(headers[0]->Item1, headers[0]->Item2, values[0], headers[0]->Item3);
+    lastInsertedHead = head;
     ValueNode^ prev = head;
     for (int i = 1; i < values->Length; ++i) {
         ValueNode^ current = gcnew ValueNode(headers[i]->Item1, headers[i]->Item2,values[i], headers[i]->Item3);
@@ -188,4 +189,8 @@ void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^
         sum += headers[i]->Item3;
     }
     registerTotalSize = sum;
+}
+
+ValueNode^ HardDrive::GetLastInsertedRow() {
+    return lastInsertedHead;
 }

@@ -50,6 +50,9 @@ public:
 };
 
 public ref class HardDrive {
+private:
+	ValueNode^ lastInsertedHead;
+
 public:
     array<Platter^>^ platters;
 
@@ -83,4 +86,5 @@ public:
 			return instance;
 		}
 	}
+	ValueNode^ GetLastInsertedRow();
 };

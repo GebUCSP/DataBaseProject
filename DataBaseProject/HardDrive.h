@@ -65,9 +65,11 @@ public:
 
 	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_);
 	void InsertRow(array<String^>^ values);
+
 	List<ValueNode^>^ getListByField(String^ field);
 	String^ getRowByNode(ValueNode^ node);
 	void getRowByListNodes(List<ValueNode^>^ lista);
+	ValueNode^ getNodeByField(ValueNode^ node, String^ type);
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);
 
 	void ShowInfo();

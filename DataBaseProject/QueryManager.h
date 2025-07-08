@@ -46,6 +46,7 @@ ref class QueryManager {
 private:
     static AVLTree^ indexTree = nullptr;
     static String^ currentField = "";
+
     static int keyIndex = 0;
 
 public:
@@ -53,4 +54,5 @@ public:
     static void SelectWhere(String^ field, String^ op, String^ val);
     static void SetKeyField(String^ fieldName);
     static void BuildIndex(String^ field);
+    static void AND(String^ field, String^ op, String^ val, String^ additionalField, String^ additionalOp, String^ additionalVal);
 };

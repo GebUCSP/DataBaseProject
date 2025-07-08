@@ -14,7 +14,8 @@ public:
 	ValueNode^ next;
 	ValueNode^ nextValueNode;
 	ValueNode^ previousValueNode;
-	Tuple<int, int, int, int>^ ubicacion;
+	Tuple<int, int, int, int,Tuple<int,int>^>^ ubicacion;
+	Tuple<int, int>^ sectorUbication;
 	ValueNode(String^ field_, String^ type_, String^ value_, int size_);
 };
 
@@ -59,7 +60,8 @@ public:
 	array<int>^ usedCapacityClusters;
 	array<Tuple<String^, String^, int>^>^ headers = nullptr;
 
-	int plattersQuantity, tracksQuantity, clusterQuantity, sectorsQuantity, sectorCapacity, clusterCapacity;
+	int plattersQuantity, tracksQuantity, clusterQuantity, sectorsQuantity, sectorCapacity;
+	float clusterCapacity;
 
 	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_);
 	void InsertRow(array<String^>^ values);

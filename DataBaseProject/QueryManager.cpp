@@ -142,11 +142,7 @@ void QueryManager::SelectWhere(String^ field, String^ op, String^ val) {
         return;
     }
 
-    String^ output = "";
-    for each (ValueNode ^ n in results) {
-        output += HardDrive::instance->getRowByNode(n) + "\n";
-    }
-    MessageBox::Show(output);
+    HardDrive::instance->getRowByListNodes(results);
 }
 
 void QueryManager::SetKeyField(String^ fieldName) {
@@ -165,25 +161,26 @@ bool AVLTree::CompareValues(String^ type, String^ a, String^ b, String^ op) {
             int valA = Int32::Parse(a);
             int valB = Int32::Parse(b);
             if (op == "=") return valA == valB;
+            if (op == "!=") return valA != valB;
             if (op == "<") return valA < valB;
             if (op == ">") return valA > valB;
             if (op == "<=") return valA <= valB;
             if (op == ">=") return valA >= valB;
-            if (op == "!=") return valA != valB;
         }
         else if (type == "DECIMAL") {
             double valA = Double::Parse(a);
             double valB = Double::Parse(b);
             if (op == "=") return valA == valB;
+            if (op == "!=") return valA != valB;
             if (op == "<") return valA < valB;
             if (op == ">") return valA > valB;
             if (op == "<=") return valA <= valB;
             if (op == ">=") return valA >= valB;
-            if (op == "!=") return valA != valB;
         }
         else {
             if (op == "=") return a == b;
             if (op == "!=") return a != b;
+
         }
     }
     catch (FormatException^) {
@@ -206,4 +203,92 @@ void QueryManager::BuildIndex(String^ field) {
     for each (ValueNode^ n in nodes) {
         indexTree->Insert(n->value, n);
     }
+}
+
+void QueryManager::AND(String^ field, String^ op, String^ val, String^ additionalField, String^ additionalOp, String^ additionalVal)
+{
+    if (indexTree == nullptr || currentField != field)
+        BuildIndex(field);
+    List<ValueNode^>^ resultsA = indexTree->SearchByField(field, op, val);
+
+    indexTree = nullptr;
+
+    if (indexTree == nullptr)
+        BuildIndex(additionalField);
+    List<ValueNode^>^ resultsB = indexTree->SearchByField(additionalField, additionalOp, additionalVal);
+
+    List<ValueNode^>^ minList = nullptr;
+    List<ValueNode^>^ maxList = nullptr;
+
+    int size = 0;
+
+    if (resultsA->Count < resultsB->Count) {
+        size = resultsA->Count;
+        minList = resultsA;
+        maxList = resultsB;
+    }
+    else {
+        size = resultsB->Count;
+        minList = resultsB;
+        maxList = resultsA;
+    }
+
+    List<ValueNode^>^ results = gcnew List<ValueNode^>();
+
+    for (int i = 0; i < minList->Count; i++) {
+        ValueNode^ p = HardDrive::Instance->getNodeByField(minList[i], maxList[i]->field);
+        if (maxList->Contains(p))
+            results->Add(p);
+    }
+
+    if (results == nullptr || results->Count == 0) {
+        MessageBox::Show("Sin resultados.");
+        return;
+    }
+
+    HardDrive::instance->getRowByListNodes(results);
+}
+
+void QueryManager::OR(String^ field, String^ op, String^ val, String^ additionalField, String^ additionalOp, String^ additionalVal)
+{
+    if (indexTree == nullptr || currentField != field)
+        BuildIndex(field);
+    List<ValueNode^>^ resultsA = indexTree->SearchByField(field, op, val);
+
+    indexTree = nullptr;
+
+    if (indexTree == nullptr)
+        BuildIndex(additionalField);
+    List<ValueNode^>^ resultsB = indexTree->SearchByField(additionalField, additionalOp, additionalVal);
+
+    List<ValueNode^>^ minList = nullptr;
+    List<ValueNode^>^ maxList = nullptr;
+
+    int size = 0;
+
+    if (resultsA->Count < resultsB->Count) {
+        size = resultsA->Count;
+        minList = resultsA;
+        maxList = resultsB;
+    }
+    else {
+        size = resultsB->Count;
+        minList = resultsB;
+        maxList = resultsA;
+    }
+
+    List<ValueNode^>^ results = gcnew List<ValueNode^>();
+
+    for (int i = 0; i < minList->Count; i++) {
+        ValueNode^ p = HardDrive::Instance->getNodeByField(minList[i], maxList[i]->field);
+        if (maxList->Contains(p))
+            results->Add(p);
+    }
+
+    if (results == nullptr || results->Count == 0) {
+        MessageBox::Show("Sin resultados.");
+        return;
+    }
+
+    HardDrive::instance->getRowByListNodes(results);
 }

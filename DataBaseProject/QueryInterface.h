@@ -46,8 +46,8 @@ namespace DataBaseProject {
 	private: System::Windows::Forms::ComboBox^ Operator;
 
 
-	private: System::Windows::Forms::RadioButton^ btnAnd;
-	private: System::Windows::Forms::RadioButton^ btnOr;
+	public: System::Windows::Forms::RadioButton^ btnAnd;
+	public: System::Windows::Forms::RadioButton^ btnOr;
 	private: System::Windows::Forms::ComboBox^ Attribute;
 
 	private: System::Windows::Forms::ComboBox^ LikePosition;
@@ -278,15 +278,16 @@ namespace DataBaseProject {
 			// 
 			// AdditionalAttribute
 			// 
-			this->AdditionalAttribute->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->AdditionalAttribute->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->AdditionalAttribute->FormattingEnabled = true;
 			this->AdditionalAttribute->Location = System::Drawing::Point(11, 173);
 			this->AdditionalAttribute->Name = L"AdditionalAttribute";
 			this->AdditionalAttribute->Size = System::Drawing::Size(173, 31);
-			this->AdditionalAttribute->TabIndex = 21;
+			this->AdditionalAttribute->TabIndex = 15;
 			this->AdditionalAttribute->Visible = false;
-			//
+			this->AdditionalAttribute->SelectedIndexChanged += gcnew System::EventHandler(this, &QueryInterface::Attribute_SelectedIndexChanged);
+			// 
 			// AdditionalOperator
 			// 
 			this->AdditionalOperator->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,
@@ -449,7 +450,7 @@ namespace DataBaseProject {
 	}
 
 	private: System::Void btnConfirm_Click(System::Object^ sender, System::EventArgs^ e) {
-		//Llamar la funciÛn de b˙squeda
+		//Llamar la funci√≥n de b√∫squeda
 		String^ campo = Attribute->SelectedItem != nullptr ? Attribute->SelectedItem->ToString() : "";
 		String^ operador = Operator->SelectedItem != nullptr ? Operator->SelectedItem->ToString() : "";
 		String^ valor = Value->Text;
@@ -459,7 +460,30 @@ namespace DataBaseProject {
 			return;
 		}
 
-		// AquÌ llamas al QueryManager directamente para crear el ·rbol y buscar
+		if (btnAnd->Checked) {
+			String^ campoAdicional = AdditionalAttribute->SelectedItem != nullptr ? AdditionalAttribute->SelectedItem->ToString() : "";
+			String^ operadorAdicional = AdditionalOperator->SelectedItem != nullptr ? AdditionalOperator->SelectedItem->ToString() : "";
+			String^ valorAdicional = AdditionalValue->Text;
+			if (campoAdicional == "" || operadorAdicional == "" || valorAdicional == "") {
+				MessageBox::Show("Completa todos los campos obligatorios.");
+				return;
+			}
+			QueryManager::AND(campo, operador, valor, campoAdicional, operadorAdicional, valorAdicional);
+			return;
+		}else if (btnOr->Checked) {
+			String^ campoAdicional = AdditionalAttribute->SelectedItem != nullptr ? AdditionalAttribute->SelectedItem->ToString() : "";
+			String^ operadorAdicional = AdditionalOperator->SelectedItem != nullptr ? AdditionalOperator->SelectedItem->ToString() : "";
+			String^ valorAdicional = AdditionalValue->Text;
+			if (campoAdicional == "" || operadorAdicional == "" || valorAdicional == "") {
+				MessageBox::Show("Completa todos los campos obligatorios.");
+				return;
+			}
+			//QueryManager::OR(campo, operador, valor, campoAdicional, operadorAdicional, valorAdicional);
+			return;
+		}
+
+
+		// Aqu√≠ llamas al QueryManager directamente para crear el √°rbol y buscar
 		QueryManager::SelectWhere(campo, operador, valor);
 	}
 	private: System::Void Attribute_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {

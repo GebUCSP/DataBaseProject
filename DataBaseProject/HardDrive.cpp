@@ -132,7 +132,7 @@ void HardDrive::InsertRow(array<String^>^ values)
     }
 
     if (current != nullptr) {
-        MessageBox::Show("No hay espacio suficiente para insertar la fila.");
+        MessageBox::Show("No hay espacio suficiente para insertar una fila ");
         return;
     }
 
@@ -154,8 +154,6 @@ void HardDrive::InsertRow(array<String^>^ values)
             usedCapacityClusters[t->Item6] += n->size;
         }
     }
-
-    MessageBox::Show("Fila insertada con exito.");
 }
 
 List<ValueNode^>^ HardDrive::getListByField(String^ field) {
@@ -199,6 +197,19 @@ void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
         output += getRowByNode(n) + "\n";
     }
     MessageBox::Show(output, "Resultado Query");
+}
+
+ValueNode^ HardDrive::getNodeByField(ValueNode^ node, String^ field){
+    ValueNode^ currentNode = node;
+    while (currentNode->previousValueNode) {
+        currentNode = currentNode->previousValueNode;
+    }
+
+    while (currentNode) {
+        if (currentNode->field == field) return currentNode;
+        currentNode = currentNode->nextValueNode;
+    }
+    return currentNode;
 }
 
 void HardDrive::ShowAllData() {

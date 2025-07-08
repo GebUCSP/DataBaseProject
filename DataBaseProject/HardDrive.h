@@ -67,7 +67,8 @@ public:
 	void InsertRow(array<String^>^ values);
 
 	List<ValueNode^>^ getListByField(String^ field);
-	String^ getRowByNode(ValueNode^ node);
+
+	List<String^>^ getRowByNode(ValueNode^ node);
 	void getRowByListNodes(List<ValueNode^>^ lista);
 	ValueNode^ getNodeByField(ValueNode^ node, String^ type);
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);

@@ -178,25 +178,72 @@ List<ValueNode^>^ HardDrive::getListByField(String^ field) {
     return returnList;
 }
 
-String^ HardDrive::getRowByNode(ValueNode^ node) {
-    String^ output = "";
+List<String^>^ HardDrive::getRowByNode(ValueNode^ node) {
+    List<String^>^ output = gcnew List<String^>();
     ValueNode^ currentNode = node;
     while (currentNode->previousValueNode) {
         currentNode = currentNode->previousValueNode;
     }
     while (currentNode) {
-        output += currentNode->field + ": " + currentNode->value + " - location: ( " + currentNode->ubicacion->Item5->Item1 + "," + currentNode->ubicacion->Item5->Item1 + " ) " + " | ";
+        output->Add(currentNode->value + String::Format("\nLocation: (P:{0}, S:{1}, T:{2}, C:{3}, S:({4},{5}))",
+            currentNode->ubicacion->Item1,
+            currentNode->ubicacion->Item2,
+            currentNode->ubicacion->Item3,
+            currentNode->ubicacion->Item4,
+            currentNode->ubicacion->Item5->Item1,
+            currentNode->ubicacion->Item5->Item2
+        ));
         currentNode = currentNode->nextValueNode;
     }
     return output;
 }
 
 void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
-    String^ output = "";
+    List<List<String^>^>^ output = gcnew List<List<String^>^>();
     for each (ValueNode ^ n in lista) {
-        output += getRowByNode(n) + "\n";
+        output->Add(getRowByNode(n));
     }
-    MessageBox::Show(output, "Resultado Query");
+
+    if (output->Count == 0) {
+        MessageBox::Show("No hay coincidencias.");
+        return;
+    }
+
+    // Crear la ventana y tabla
+    Form^ form = gcnew Form();
+    form->Text = "Tabla de Registros del Disco";
+    form->Size = System::Drawing::Size(1000, 400);
+    form->StartPosition = FormStartPosition::CenterScreen;
+
+    DataGridView^ dgv = gcnew DataGridView();
+    dgv->Dock = System::Windows::Forms::DockStyle::Fill;
+    dgv->AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode::Fill;
+    dgv->AllowUserToAddRows = false;
+    dgv->ReadOnly = true;
+    dgv->ScrollBars = ScrollBars::Both;
+    dgv->SelectionMode = DataGridViewSelectionMode::FullRowSelect;
+    dgv->DefaultCellStyle->WrapMode = DataGridViewTriState::True;
+    dgv->AutoSizeRowsMode = DataGridViewAutoSizeRowsMode::AllCells;
+
+    // Agregar columnas de headers
+    for (int i = 0; i < headers->Length; ++i) {
+        dgv->Columns->Add("col" + i.ToString(), headers[i]->Item1);
+    }
+
+    // Agregar filas
+    for each(List<String^> ^ rowList in output) {
+        array<String^>^ row = gcnew array<String^>(headers->Length + 1);
+
+        for (int i = 0; i < rowList->Count && i < headers->Length; ++i) {
+            row[i] = rowList[i];
+        }
+
+        dgv->Rows->Add(row);
+    }
+
+
+    form->Controls->Add(dgv);
+    form->Show();
 }
 
 ValueNode^ HardDrive::getNodeByField(ValueNode^ node, String^ field){
@@ -294,11 +341,11 @@ void HardDrive::ShowDataAsTable() {
 
     // Agregar filas
     for each (List<String^> ^ rowList in allRows) {
-        // Crear nuevo array con espacio para la columna "Ubicación" + datos
+        // Crear nuevo array con espacio para la columna "UbicaciÃ³n" + datos
         array<String^>^ row = gcnew array<String^>(headers->Length + 1);
 
-        // Asignar la ubicación (opcional: puedes omitir esto si no tienes ese dato)
-        row[0] = "Ubicación no disponible"; // o puedes quitar esta columna si no la necesitas
+        // Asignar la ubicaciÃ³n (opcional: puedes omitir esto si no tienes ese dato)
+        row[0] = "UbicaciÃ³n no disponible"; // o puedes quitar esta columna si no la necesitas
 
         for (int i = 0; i < rowList->Count && i < headers->Length; ++i) {
             row[i] = rowList[i];

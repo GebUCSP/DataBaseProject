@@ -115,6 +115,7 @@ namespace DataBaseProject {
 				ReadManager::ReadCSV();
 
 				HardDrive::Instance->ShowAllData();
+				HardDrive::instance->ShowDataAsTable();
 				DataBaseProject::QueryInterface^ newForm = gcnew QueryInterface();
 				newForm->Show();
 				//this->Hide();

@@ -74,6 +74,7 @@ public:
 
 	void ShowInfo();
 	void ShowAllData();
+	void ShowDataAsTable();
 
 	ref class ValueNodeComparerDesc : public System::Collections::Generic::IComparer<ValueNode^> {
 	public:

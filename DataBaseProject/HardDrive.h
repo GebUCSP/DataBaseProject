@@ -67,6 +67,7 @@ public:
 	void InsertRow(array<String^>^ values);
 
 	List<ValueNode^>^ getListByField(String^ field);
+
 	List<String^>^ getRowByNode(ValueNode^ node);
 	void getRowByListNodes(List<ValueNode^>^ lista);
 	ValueNode^ getNodeByField(ValueNode^ node, String^ type);

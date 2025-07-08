@@ -185,7 +185,14 @@ List<String^>^ HardDrive::getRowByNode(ValueNode^ node) {
         currentNode = currentNode->previousValueNode;
     }
     while (currentNode) {
-        output->Add(currentNode->value);
+        output->Add(currentNode->value + String::Format("\nLocation: (P:{0}, S:{1}, T:{2}, C:{3}, S:({4},{5}))",
+            currentNode->ubicacion->Item1,
+            currentNode->ubicacion->Item2,
+            currentNode->ubicacion->Item3,
+            currentNode->ubicacion->Item4,
+            currentNode->ubicacion->Item5->Item1,
+            currentNode->ubicacion->Item5->Item2
+        ));
         currentNode = currentNode->nextValueNode;
     }
     return output;
@@ -198,7 +205,7 @@ void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
     }
 
     if (output->Count == 0) {
-        MessageBox::Show("No hay datos almacenados.", "Tabla del Disco");
+        MessageBox::Show("No hay coincidencias.");
         return;
     }
 
@@ -215,7 +222,8 @@ void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
     dgv->ReadOnly = true;
     dgv->ScrollBars = ScrollBars::Both;
     dgv->SelectionMode = DataGridViewSelectionMode::FullRowSelect;
-
+    dgv->DefaultCellStyle->WrapMode = DataGridViewTriState::True;
+    dgv->AutoSizeRowsMode = DataGridViewAutoSizeRowsMode::AllCells;
 
     // Agregar columnas de headers
     for (int i = 0; i < headers->Length; ++i) {
@@ -224,11 +232,7 @@ void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
 
     // Agregar filas
     for each(List<String^> ^ rowList in output) {
-        // Crear nuevo array con espacio para la columna "Ubicación" + datos
         array<String^>^ row = gcnew array<String^>(headers->Length + 1);
-
-        // Asignar la ubicación (opcional: puedes omitir esto si no tienes ese dato)
-        row[0] = "Ubicación no disponible"; // o puedes quitar esta columna si no la necesitas
 
         for (int i = 0; i < rowList->Count && i < headers->Length; ++i) {
             row[i] = rowList[i];

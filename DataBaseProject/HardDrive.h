@@ -53,9 +53,9 @@ public:
 public ref class HardDrive {
 private:
 	array<Platter^>^ platters;
-
-	HardDrive(int plattersQuantity, int tracksQuantity, int clusterQuantity, int sectorsQuantity, int sectorCapacity);
+	ValueNode^ lastInsertedHead;
 public:
+	HardDrive(int plattersQuantity, int tracksQuantity, int clusterQuantity, int sectorsQuantity, int sectorCapacity);
 	static HardDrive^ instance = nullptr;
 	array<int>^ usedCapacityClusters;
 	array<Tuple<String^, String^, int>^>^ headers = nullptr;
@@ -66,6 +66,8 @@ public:
 	static void Create(int plattersQuantity_, int tracksQuantity_, int clusterQuantity_, int sectorsQuantity_, int sectorCapacity_);
 	void InsertRow(array<String^>^ values);
 	List<ValueNode^>^ getListByField(String^ field);
+	String^ getRowByNode(ValueNode^ node);
+	void getRowByListNodes(List<ValueNode^>^ lista);
 	void setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container);
 
 	void ShowInfo();
@@ -84,4 +86,5 @@ public:
 			return instance;
 		}
 	}
+	ValueNode^ GetLastInsertedRow();
 };

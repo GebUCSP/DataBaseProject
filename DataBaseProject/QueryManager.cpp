@@ -50,35 +50,47 @@ AVLNode^ AVLTree::Balance(AVLNode^ node) {
     return node;
 }
 
-AVLNode^ AVLTree::InsertNode(AVLNode^ node, String^ key, List<ValueNode^>^ row) {
+AVLNode^ AVLTree::InsertNode(AVLNode^ node, String^ key, ValueNode^ row) {
     if (!node) return gcnew AVLNode(key, row);
-    if (String::Compare(key, node->key) < 0)
+
+    String^ type = row->type;
+    int cmp = 0;
+ 
+    if (CompareValues(type, key, node->key, "<")) cmp = -1;
+    else if (CompareValues(type, key, node->key, ">")) cmp = 1;
+
+
+    if (cmp < 0)
         node->left = InsertNode(node->left, key, row);
-    else
+    else if (cmp > 0)
         node->right = InsertNode(node->right, key, row);
+    else
+        node->row->Add(row);
+
     return Balance(node);
 }
 
 AVLNode^ AVLTree::SearchNode(AVLNode^ node, String^ key) {
     if (!node) return nullptr;
-    int cmp = String::Compare(key, node->key);
+    String^ type = node->row[0]->type;
+    int cmp = 0;
+
+    if (CompareValues(type, key, node->key, "<")) cmp = -1;
+    else if (CompareValues(type, key, node->key, ">")) cmp = 1;
+
+
     if (cmp == 0) return node;
     if (cmp < 0) return SearchNode(node->left, key);
     return SearchNode(node->right, key);
 }
 
-void AVLTree::InOrderSearch(AVLNode^ node, String^ field, String^ op, String^ val, List<List<ValueNode^>^>^ results) {
+void AVLTree::InOrderSearch(AVLNode^ node, String^ field, String^ op, String^ val, List<ValueNode^>^ results) {
     if (!node) return;
     InOrderSearch(node->left, field, op, val, results);
 
-    for each (ValueNode ^ n in node->row) {
-        if (n->field == field) {
-            bool condition = false;
-            if (op == "=") condition = n->value == val;
-            else if (op == ">") condition = Int32::Parse(n->value) > Int32::Parse(val);
-            else if (op == "<") condition = Int32::Parse(n->value) < Int32::Parse(val);
-
-            if (condition) results->Add(node->row);
+    for each (ValueNode^ n in node->row) {
+        if (n->field == field && CompareValues(n->type, n->value, val, op)) {
+            results->Add(n);
         }
     }
 
@@ -89,7 +101,7 @@ AVLTree::AVLTree() {
     root = nullptr;
 }
 
-void AVLTree::Insert(String^ key, List<ValueNode^>^ row) {
+void AVLTree::Insert(String^ key, ValueNode^ row) {
     root = InsertNode(root, key, row);
 }
 
@@ -98,8 +110,8 @@ List<ValueNode^>^ AVLTree::Search(String^ key) {
     return node ? node->row : nullptr;
 }
 
-List<List<ValueNode^>^>^ AVLTree::SearchByField(String^ field, String^ op, String^ val) {
-    List<List<ValueNode^>^>^ results = gcnew List<List<ValueNode^>^>();
+List<ValueNode^>^ AVLTree::SearchByField(String^ field, String^ op, String^ val) {
+    List<ValueNode^>^ results = gcnew List<ValueNode^>();
     InOrderSearch(root, field, op, val, results);
     return results;
 }
@@ -115,20 +127,26 @@ void QueryManager::InsertRow(array<String^>^ values) {
     }
 
     String^ key = row[keyIndex]->value;
-    indexTree->Insert(key, row);
+    //indexTree->Insert(key, row);
 }
 
-void QueryManager::SelectWhere(String^ field, String^ op, String^ val) {
-    List<List<ValueNode^>^>^ results = indexTree->SearchByField(field, op, val);
-    String^ output = "";
 
-    for each (List<ValueNode^> ^ row in results) {
-        for each (ValueNode ^ v in row)
-            output += v->field + ": " + v->value + " | ";
-        output += "\n";
+void QueryManager::SelectWhere(String^ field, String^ op, String^ val) {
+    if (indexTree == nullptr || currentField != field)
+        BuildIndex(field);
+    
+    List<ValueNode^>^ results = indexTree->SearchByField(field, op, val);
+
+    if (results == nullptr || results->Count == 0) {
+        MessageBox::Show("Sin resultados.");
+        return;
     }
 
-    MessageBox::Show(output == "" ? "Sin resultados." : output);
+    String^ output = "";
+    for each (ValueNode ^ n in results) {
+        output += HardDrive::instance->getRowByNode(n) + "\n";
+    }
+    MessageBox::Show(output);
 }
 
 void QueryManager::SetKeyField(String^ fieldName) {
@@ -139,4 +157,48 @@ void QueryManager::SetKeyField(String^ fieldName) {
         }
     }
     MessageBox::Show("Campo clave no encontrado");
+}
+
+bool AVLTree::CompareValues(String^ type, String^ a, String^ b, String^ op) {
+    try {
+        if (type == "INTEGER") {
+            int valA = Int32::Parse(a);
+            int valB = Int32::Parse(b);
+            if (op == "=") return valA == valB;
+            if (op == "<") return valA < valB;
+            if (op == ">") return valA > valB;
+        }
+        else if (type == "DECIMAL") {
+            double valA = Double::Parse(a);
+            double valB = Double::Parse(b);
+            if (op == "=") return valA == valB;
+            if (op == "<") return valA < valB;
+            if (op == ">") return valA > valB;
+        }
+        else {
+            if (op == "=") return a == b;
+            if (op == "<") return String::Compare(a, b) < 0;
+            if (op == ">") return String::Compare(a, b) > 0;
+        }
+    }
+    catch (FormatException^) {
+        return false;
+    }
+    return false;
+}
+
+void QueryManager::BuildIndex(String^ field) {
+    indexTree = gcnew AVLTree();
+    currentField = field;
+
+    List<ValueNode^>^ nodes = HardDrive::instance->getListByField(field);
+
+    if (nodes == nullptr || nodes->Count == 0) {
+        MessageBox::Show("No hay datos para indexar en ese campo.");
+        return;
+    }
+
+    for each (ValueNode^ n in nodes) {
+        indexTree->Insert(n->value, n);
+    }
 }

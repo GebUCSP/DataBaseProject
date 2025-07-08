@@ -91,6 +91,7 @@ void HardDrive::Create(int plattersQuantity_, int tracksQuantity_, int clusterQu
 void HardDrive::InsertRow(array<String^>^ values)
 {
     ValueNode^ head = gcnew ValueNode(headers[0]->Item1, headers[0]->Item2, values[0], headers[0]->Item3);
+    lastInsertedHead = head;
     ValueNode^ prev = head;
     for (int i = 1; i < values->Length; ++i) {
         ValueNode^ current = gcnew ValueNode(headers[i]->Item1, headers[i]->Item2, values[i], headers[i]->Item3);
@@ -159,7 +160,6 @@ void HardDrive::InsertRow(array<String^>^ values)
 
 List<ValueNode^>^ HardDrive::getListByField(String^ field) {
     List<ValueNode^>^ returnList = gcnew List<ValueNode^>();
-    String^ output = "";
 
     for (int p = 0; p < platters->Length; ++p) {
         for (int s = 0; s < platters[p]->surfaces->Length; ++s) {
@@ -169,7 +169,6 @@ List<ValueNode^>^ HardDrive::getListByField(String^ field) {
                     ValueNode^ current = cluster->head;
                     while (current) {
                         if (current->field == field) {
-                            output += current->field + ": " + current->value + " | ";
                             returnList->Add(current);
                         }
                         current = current->next;
@@ -178,8 +177,28 @@ List<ValueNode^>^ HardDrive::getListByField(String^ field) {
             }
         }
     }
-    MessageBox::Show(output, "Prueba");
     return returnList;
+}
+
+String^ HardDrive::getRowByNode(ValueNode^ node) {
+    String^ output = "";
+    ValueNode^ currentNode = node;
+    while (currentNode->previousValueNode) {
+        currentNode = currentNode->previousValueNode;
+    }
+    while (currentNode) {
+        output += currentNode->field + ": " + currentNode->value + " - location: ( " + currentNode->ubicacion->Item5->Item1 + "," + currentNode->ubicacion->Item5->Item1 + " ) " + " | ";
+        currentNode = currentNode->nextValueNode;
+    }
+    return output;
+}
+
+void HardDrive::getRowByListNodes(List<ValueNode^>^ lista) {
+    String^ output = "";
+    for each (ValueNode ^ n in lista) {
+        output += getRowByNode(n) + "\n";
+    }
+    MessageBox::Show(output, "Resultado Query");
 }
 
 void HardDrive::ShowAllData() {
@@ -217,4 +236,8 @@ void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^
     for (int i = 0; i < container->Count; i++) {
         headers[i] = gcnew Tuple<String^, String^, int>(container[i]->Item1, container[i]->Item2, container[i]->Item3);
     }
+}
+
+ValueNode^ HardDrive::GetLastInsertedRow() {
+    return lastInsertedHead;
 }

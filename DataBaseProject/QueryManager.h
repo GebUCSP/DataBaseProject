@@ -56,7 +56,4 @@ public:
     static void BuildIndex(String^ field);
     static void AND(String^ field, String^ op, String^ val, String^ additionalField, String^ additionalOp, String^ additionalVal);
     static void OR(String^ field, String^ op, String^ val, String^ additionalField, String^ additionalOp, String^ additionalVal);
-    static void SelectWhereEmpieza(String^ field, String^ val);
-    static void SelectWhereTermina(String^ field, String^ val);
-    static void SelectWhereIncluye(String^ field, String^ val);
 };

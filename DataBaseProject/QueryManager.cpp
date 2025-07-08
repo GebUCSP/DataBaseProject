@@ -167,6 +167,9 @@ bool AVLTree::CompareValues(String^ type, String^ a, String^ b, String^ op) {
             if (op == "=") return valA == valB;
             if (op == "<") return valA < valB;
             if (op == ">") return valA > valB;
+            if (op == "<=") return valA <= valB;
+            if (op == ">=") return valA >= valB;
+            if (op == "!=") return valA != valB;
         }
         else if (type == "DECIMAL") {
             double valA = Double::Parse(a);
@@ -174,11 +177,13 @@ bool AVLTree::CompareValues(String^ type, String^ a, String^ b, String^ op) {
             if (op == "=") return valA == valB;
             if (op == "<") return valA < valB;
             if (op == ">") return valA > valB;
+            if (op == "<=") return valA <= valB;
+            if (op == ">=") return valA >= valB;
+            if (op == "!=") return valA != valB;
         }
         else {
             if (op == "=") return a == b;
-            if (op == "<") return String::Compare(a, b) < 0;
-            if (op == ">") return String::Compare(a, b) > 0;
+            if (op == "!=") return a != b;
         }
     }
     catch (FormatException^) {

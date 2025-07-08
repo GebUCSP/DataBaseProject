@@ -286,7 +286,7 @@ namespace DataBaseProject {
 			this->AdditionalAttribute->Size = System::Drawing::Size(173, 31);
 			this->AdditionalAttribute->TabIndex = 21;
 			this->AdditionalAttribute->Visible = false;
-			// 
+			//
 			// AdditionalOperator
 			// 
 			this->AdditionalOperator->Font = (gcnew System::Drawing::Font(L"Lucida Sans Typewriter", 15.75F, System::Drawing::FontStyle::Regular,

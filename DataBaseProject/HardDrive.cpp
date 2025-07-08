@@ -230,6 +230,80 @@ void HardDrive::ShowAllData() {
     MessageBox::Show(output, "Datos en el Disco");
 }
 
+void HardDrive::ShowDataAsTable() {
+    List<List<String^>^>^ allRows = gcnew List<List<String^>^>();
+
+    for (int p = 0; p < platters->Length; ++p) {
+        for (int s = 0; s < platters[p]->surfaces->Length; ++s) {
+            for (int t = 0; t < platters[p]->surfaces[s]->tracks->Length; ++t) {
+                for (int c = 0; c < platters[p]->surfaces[s]->tracks[t]->clusters->Length; ++c) {
+                    Cluster^ cluster = platters[p]->surfaces[s]->tracks[t]->clusters[c];
+                    ValueNode^ current = cluster->head;
+
+                    while (current) {
+                        if (current->previousValueNode == nullptr) {
+                            List<String^>^ row = gcnew List<String^>();
+                            ValueNode^ rowCurrent = current;
+                            while (rowCurrent) {
+                                row->Add(rowCurrent->value);
+                                rowCurrent = rowCurrent->nextValueNode;
+                            }
+                            allRows->Add(row);
+                        }
+                        current = current->next;
+                    }
+                }
+            }
+        }
+    }
+
+    if (allRows->Count == 0) {
+        MessageBox::Show("No hay datos almacenados.", "Tabla del Disco");
+        return;
+    }
+
+    // Crear la ventana y tabla
+    Form^ form = gcnew Form();
+    form->Text = "Tabla de Registros del Disco";
+    form->Size = System::Drawing::Size(1000, 400);
+    form->StartPosition = FormStartPosition::CenterScreen;
+
+    DataGridView^ dgv = gcnew DataGridView();
+    dgv->Dock = System::Windows::Forms::DockStyle::Fill;
+    dgv->AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode::Fill;
+    dgv->AllowUserToAddRows = false;
+    dgv->ReadOnly = true;
+    dgv->ScrollBars = ScrollBars::Both;
+    dgv->SelectionMode = DataGridViewSelectionMode::FullRowSelect;
+
+    // Agregar columnas de headers
+    for (int i = 0; i < headers->Length; ++i) {
+        dgv->Columns->Add("col" + i.ToString(), headers[i]->Item1);
+    }
+
+    // Agregar filas
+    for each (List<String^> ^ rowList in allRows) {
+        // Crear nuevo array con espacio para la columna "Ubicación" + datos
+        array<String^>^ row = gcnew array<String^>(headers->Length + 1);
+
+        // Asignar la ubicación (opcional: puedes omitir esto si no tienes ese dato)
+        row[0] = "Ubicación no disponible"; // o puedes quitar esta columna si no la necesitas
+
+        for (int i = 0; i < rowList->Count && i < headers->Length; ++i) {
+            row[i] = rowList[i];
+        }
+
+        dgv->Rows->Add(row);
+    }
+
+
+    form->Controls->Add(dgv);
+    form->Show();
+}
+
+
+
+
 void HardDrive::setHeaders(List<Tuple<String^, String^, int, int, bool, bool>^>^ container)
 {
     headers = gcnew array<Tuple<String^, String^, int>^>(container->Count);
